@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-!z^v!7u!-el8=uurnoar6nd%le6)+0_2&4hpm%(v!==20qpm2=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['gofoodie2.onrender.com']
+ALLOWED_HOSTS = ['gofoodie.com']
 
 
 # Application definition
