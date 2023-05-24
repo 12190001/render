@@ -14,9 +14,6 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as message_constants
 
-import pytesseract
-
-pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract' # replace with the actual path to your Tesseract-OCR executable
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,7 +30,7 @@ SECRET_KEY = 'django-insecure-!z^v!7u!-el8=uurnoar6nd%le6)+0_2&4hpm%(v!==20qpm2=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gofoodie2.onrender.com']
 
 
 # Application definition
@@ -85,36 +82,36 @@ TEMPLATES = [
 # WSGI_APPLICATION = 'final_fyp.wsgi.application'
 ASGI_APPLICATION = 'final_fyp.asgi.application'
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [("127.0.0.1", 6379)],
-#         },
-#     },
-# }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis://red-chlm5g3hp8uej70mif1g", 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'CLIENT': {
-            "host":"mongodb+srv://fyp:fyp@cluster0.vhaucyj.mongodb.net/?retryWrites=true&w=majority",
-            "name":"food-ordering",
-            "authMechanism":"SCRAM-SHA-1" #For atlas cloud db
-        }
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#        }
-
+#         'ENGINE': 'djongo',
+#         'CLIENT': {
+#             "host":"mongodb+srv://fyp:fyp@cluster0.vhaucyj.mongodb.net/?retryWrites=true&w=majority",
+#             "name":"food-ordering",
+#             "authMechanism":"SCRAM-SHA-1" #For atlas cloud db
+#         }
+#     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+       }
+
+}
 
 
 # Password validation
