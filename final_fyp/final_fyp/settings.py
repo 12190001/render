@@ -85,10 +85,11 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("rediss://red-chlm5g3hp8uej70mif1g:9VEBOvxeIa5sP7D7NjTi9cyjvG0sQLa5@oregon-redis.render.com", 6379)],
+            "hosts": [("oregon-redis.render.com", 6379)],
         },
     },
 }
+
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
