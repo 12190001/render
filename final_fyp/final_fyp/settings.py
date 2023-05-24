@@ -85,10 +85,11 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("oregon-redis.render.com", 6379)],
+            "hosts": [("103.197.179.99", 6379)],
         },
     },
 }
+
 
 
 # Database
