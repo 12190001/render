@@ -14,6 +14,10 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as message_constants
 import ssl
+from redis.connection import SSLConnection
+from redis.connection import Connection
+from redis.connection import UnixDomainSocketConnection
+from redis.connection import ConnectionPool
 
 
 
@@ -82,18 +86,35 @@ TEMPLATES = [
 # WSGI_APPLICATION = 'final_fyp.wsgi.application'
 ASGI_APPLICATION = 'final_fyp.asgi.application'
 
+class CustomRedisConnection(Connection):
+    def __init__(self, *args, **kwargs):
+        password = kwargs.pop('password', None)
+        ssl_cert_reqs = kwargs.pop('ssl_cert_reqs', ssl.CERT_NONE)
+
+        super().__init__(*args, **kwargs)
+
+        if password:
+            self.password = password
+
+        if self.ssl and self.ssl_cert_reqs != ssl_cert_reqs:
+            self.ssl_cert_reqs = ssl_cert_reqs
+
+
+class CustomRedisConnectionPool(ConnectionPool):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.connection_class = CustomRedisConnection
+
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("rediss://red-chlm5g3hp8uej70mif1g:6379")],
-            "options": {
-                "password": "9VEBOvxeIa5sP7D7NjTi9cyjvG0sQLa5",
-                "ssl_cert_reqs": ssl.CERT_NONE,  # Skip certificate verification for simplicity. Adjust according to your setup.
-            },
+            "hosts": [CustomRedisConnectionPool.from_url("redis://red-chlm5g3hp8uej70mif1g:6379", password="9VEBOvxeIa5sP7D7NjTi9cyjvG0sQLa5", ssl_cert_reqs=ssl.CERT_NONE)],
         },
     },
 }
+
 
 
 
