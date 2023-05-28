@@ -81,15 +81,13 @@ TEMPLATES = [
 ASGI_APPLICATION = 'final_fyp.asgi.application'
 
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("rediss://red-chlm5g3hp8uej70mif1g:9VEBOvxeIa5sP7D7NjTi9cyjvG0sQLa5@oregon-redis.render.com:6379")],
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [(os.environ.get('rediss://red-chlm5g3hp8uej70mif1g:9VEBOvxeIa5sP7D7NjTi9cyjvG0sQLa5@oregon-redis.render.com:6379', 'redis://localhost:6379'))],
         },
     },
 }
-REDISCLI_AUTH="9VEBOvxeIa5sP7D7NjTi9cyjvG0sQLa5 redis-cli --user red-chlm5g3hp8uej70mif1g -h oregon-redis.render.com -p 6379 --tls"
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
