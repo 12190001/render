@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 from django.contrib.messages import constants as message_constants
+import ssl
 
 
 
@@ -85,10 +86,15 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("rediss://red-chlm5g3hp8uej70mif1g:9VEBOvxeIa5sP7D7NjTi9cyjvG0sQLa5@oregon-redis.render.com:6379")],
+            "hosts": [("rediss://red-chlm5g3hp8uej70mif1g:6379")],
+            "options": {
+                "password": "9VEBOvxeIa5sP7D7NjTi9cyjvG0sQLa5",
+                "ssl_cert_reqs": ssl.CERT_NONE,  # Skip certificate verification for simplicity. Adjust according to your setup.
+            },
         },
     },
 }
+
 
 
 
