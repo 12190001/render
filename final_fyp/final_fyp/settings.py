@@ -88,7 +88,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
-REDISCLI_AUTH=9VEBOvxeIa5sP7D7NjTi9cyjvG0sQLa5 redis-cli --user red-chlm5g3hp8uej70mif1g -h oregon-redis.render.com -p 6379 --tls
+REDISCLI_AUTH="9VEBOvxeIa5sP7D7NjTi9cyjvG0sQLa5 redis-cli --user red-chlm5g3hp8uej70mif1g -h oregon-redis.render.com -p 6379 --tls"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
