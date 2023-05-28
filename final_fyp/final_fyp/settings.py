@@ -85,7 +85,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("red-chlm5g3hp8uej70mif1g", 6379)],
+            "hosts": [("gofoodie", 6379)],
         },
     },
 }
