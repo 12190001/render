@@ -15,7 +15,10 @@ from django.urls import path
 from food.routing import websocket_urlpatterns
 from channels.auth import AuthMiddleware, AuthMiddlewareStack
 from channels.security.websocket import AllowedHostsOriginValidator
+import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'final_fyp.settings')
+
+django.setup()
 
 application = ProtocolTypeRouter({
     'http': get_asgi_application(),
