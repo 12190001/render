@@ -20,13 +20,19 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'final_fyp.settings')
 
 django.setup()
 
+async def send(message):
+    await message["reply_channel"].send(message["text"])
+
 application = ProtocolTypeRouter({
     'http': get_asgi_application(),
     'websocket':AllowedHostsOriginValidator(AuthMiddlewareStack(
         URLRouter(
             websocket_urlpatterns
         )
-    )
+    ),
+        "channel": ChannelNameRouter({
+        "send": send,
+                                            
     ),
 })
 
