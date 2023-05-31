@@ -16,12 +16,10 @@ from food.routing import websocket_urlpatterns
 from channels.auth import AuthMiddleware, AuthMiddlewareStack
 from channels.security.websocket import AllowedHostsOriginValidator
 import django
+from food.consumers import NotificationConsumer
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'final_fyp.settings')
 
 django.setup()
-
-async def send(message):
-    await message["reply_channel"].send(message["text"])
 
 application = ProtocolTypeRouter({
     'http': get_asgi_application(),
@@ -33,8 +31,7 @@ application = ProtocolTypeRouter({
        
                                             
     ),
-     "channel": ChannelNameRouter({
-      "send": send,}),
+      "send": NotificationConsumer.as_asgi(),
 })
 
 
