@@ -16,19 +16,16 @@ from food.routing import websocket_urlpatterns
 from channels.auth import AuthMiddleware, AuthMiddlewareStack
 from channels.security.websocket import AllowedHostsOriginValidator
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'final_fyp.settings')
-
-import django 
-
-django.setup()
-application = ProtocolTypeRouter({
-#     'https': get_asgi_application(),
-    'websocket':AllowedHostsOriginValidator(AuthMiddlewareStack(
-        URLRouter(
-            websocket_urlpatterns
-        )
-    )
-    ),
-})
+application = get_asgi_application()
+# application = ProtocolTypeRouter({
+# #     'https': get_asgi_application(),
+#     'websocket':AllowedHostsOriginValidator(AuthMiddlewareStack(
+#         URLRouter(
+#             websocket_urlpatterns
+#         )
+#     )
+#     ),
+# })
 
 
 
