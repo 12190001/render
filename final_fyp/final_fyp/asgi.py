@@ -19,7 +19,7 @@ import django
 from food.consumers import NotificationConsumer
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'final_fyp.settings')
 
-# django.setup()
+django.setup()
 
 application = ProtocolTypeRouter({
     'http': get_asgi_application(),
