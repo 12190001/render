@@ -10,7 +10,7 @@ class NotificationConsumer(AsyncWebsocketConsumer):
         ssl_context = ssl.create_default_context()
 
         # Set up the secure WebSocket connection
-        ws = create_connection('wss://yourdomain.com/ws/', sslopt={"ssl_context": ssl_context})
+        ws = create_connection('wss://gofoodie-1a86.onrender.com/ws/notifications/', sslopt={"ssl_context": ssl_context})
 
         # Join the "notification" group
         await self.channel_layer.group_add("notification", self.channel_name)
