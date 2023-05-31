@@ -1,7 +1,7 @@
-# import json
-# import websockets
-# from channels.generic.websocket import AsyncWebsocketConsumer
-# import ssl
+import json
+import websockets
+from channels.generic.websocket import AsyncWebsocketConsumer
+import ssl
 
 
 # class NotificationConsumer(AsyncWebsocketConsumer):
