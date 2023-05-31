@@ -27,11 +27,8 @@ application = ProtocolTypeRouter({
         URLRouter(
             websocket_urlpatterns
         )
+    )                                    
     ),
-       
-                                            
-    ),
-      "send": NotificationConsumer.as_asgi(),
 })
 
 
