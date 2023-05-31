@@ -30,10 +30,11 @@ application = ProtocolTypeRouter({
             websocket_urlpatterns
         )
     ),
-        "channel": ChannelNameRouter({
-        "send": send,
+       
                                             
     ),
+     "channel": ChannelNameRouter({
+      "send": send,}),
 })
 
 
