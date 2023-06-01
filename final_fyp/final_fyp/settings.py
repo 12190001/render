@@ -95,10 +95,11 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
+        'NAME':'food-ordering',
         'CLIENT': {
             "host":"mongodb+srv://fyp:fyp@cluster0.vhaucyj.mongodb.net/?retryWrites=true&w=majority",
-            "name":"food-ordering",
-            "authMechanism":"SCRAM-SHA-1" #For atlas cloud db
+            'username':'fyp',
+            'password':'fyp'
         }
     }
 }
