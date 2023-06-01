@@ -94,7 +94,7 @@ CHANNEL_LAYERS = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
+        'ENGINE': 'django.db.backends.djongo',
         'NAME':'food-ordering',
         'CLIENT': {
             "host":"mongodb+srv://fyp:fyp@cluster0.vhaucyj.mongodb.net/?retryWrites=true&w=majority",
