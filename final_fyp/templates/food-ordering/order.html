@@ -74,7 +74,7 @@
           </div>
         </div>
       </div>
-      <p>Payment qr code: <a href="{% static 'images/qr.png' %}" style="text-decoration: underline; color: blue;" download>download</a></p>
+<!--       <p>Payment qr code: <a href="{% static 'images/qr.png' %}" style="text-decoration: underline; color: blue;" download>download</a></p> -->
       <div class="row">
         {% for order in make_orders %}
         <div class="col-md-6 col-lg-4 col-xl-4">
@@ -155,7 +155,7 @@
           </div>
         </div>
 
-        <div class="modal fade" id="exampleModalToggle{{order.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="exampleModalToggle{{order.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -177,7 +177,7 @@
                 </form>
             </div>
             </div>
-        </div>
+        </div> -->
         {% endfor %}
       </div>
     </div>
@@ -187,7 +187,7 @@
   {{ room_name|json_script:"room-name" }}
   <script>
   const notificationSocket = new WebSocket(
-              'wss://' + window.location.host + '/ws/notifications/'
+              'ws://' + window.location.host + '/ws/notifications/'
           );
 
   notificationSocket.onmessage = function(e) {
