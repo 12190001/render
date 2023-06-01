@@ -588,9 +588,14 @@ def delete_order(request, object_id, pk):
 def orders(request, object_id):
     customer = CustomUser.objects.get(email = request.user)
     orders = Basket.objects.filter(customer_id = customer)
+    
+    all_order_items = []
+    for order in orders:
+        item = OrderItems.objects.filter(basket_id = order)
+        all_order_items.append(item)
     context = {
-        'make_orders':orders[::-1],
-        'current_page': 'order'
+        'make_orders':zip(orders[::-1], all_order_items),
+        'current_page': 'order',
         }
     return render(request,'food-ordering/order.html',context)
 
