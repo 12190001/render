@@ -488,22 +488,25 @@ def add_order(request, object_id, pk):
         basket = Basket.objects.filter(customer_id = CustomUser.objects.get(email = request.user), status = 'Created').first()
 
     if request.method == 'POST':
-        if OrderItems.objects.filter(basket_id = basket, item_name = order.item_name).first():
-            messages.error(request, "The item already exists.")
+        if order.is_seen == False:
+            messages.error(request, 'The item is not available at the moment')
         else:
-            OrderItems.objects.create(
-                basket_id = basket,
-                menu_id = order,
-                customer_id = cust,
-                item_name = order.item_name,
-                quantity = 1,
-                image = order.image,
-                menu_price = order.price,
-                price = order.price
-            )
-            basket.bill = order.price
-            basket.save()
-            messages.success(request, "Order successfully added.")
+            if OrderItems.objects.filter(basket_id = basket, item_name = order.item_name).first():
+                messages.error(request, "The item already exists.")
+            else:
+                OrderItems.objects.create(
+                    basket_id = basket,
+                    menu_id = order,
+                    customer_id = cust,
+                    item_name = order.item_name,
+                    quantity = 1,
+                    image = order.image,
+                    menu_price = order.price,
+                    price = order.price
+                )
+                basket.bill = order.price
+                basket.save()
+                messages.success(request, "Order successfully added.")
     return redirect(f'/dashboard/{object_id}/menu/')
 
 @login_required
