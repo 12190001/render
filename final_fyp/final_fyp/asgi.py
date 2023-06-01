@@ -31,7 +31,6 @@ application = ProtocolTypeRouter({
         )                                   
     ),
 })
-
 application = AmazingMiddleware(application)
 
 
