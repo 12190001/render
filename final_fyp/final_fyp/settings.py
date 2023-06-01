@@ -30,6 +30,7 @@ SECRET_KEY = 'django-insecure-!z^v!7u!-el8=uurnoar6nd%le6)+0_2&4hpm%(v!==20qpm2=
 DEBUG = True
 
 ALLOWED_HOSTS = ['gofoodie-1a86.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://gofoodie-1a86.onrender.com']
 
 
 # Application definition
