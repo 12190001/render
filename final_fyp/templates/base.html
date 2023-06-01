@@ -72,11 +72,15 @@
                   aria-expanded="false"
                   style="padding:0 1rem"
                 >
+                  {% if user.image.url %}
                   <img src = {{user.image.url}} width="50" height="50" >
+                  {% else %}
+                  <i class="fa fa-user s_color"></i>
+                  {% endif %}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <div class="dropdown-item">
-                    <img src = {{user.image.url}} width="50" height="50"> {{user.first_name}} {{user.last_name}}
+                    {% if user.image.url %} <img src = {{user.image.url}} width="50" height="50"> {% else %} <i class="fa fa-user s_color"></i>{% endif %} {{user.first_name}} {{user.last_name}}
                   </div>
                   <hr>
                   <a class="dropdown-item" href="{% url 'profile' user.pk %}"
