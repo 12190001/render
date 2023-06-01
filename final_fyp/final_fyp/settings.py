@@ -35,7 +35,7 @@ ALLOWED_HOSTS = ['gofoodie-1a86.onrender.com']
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
