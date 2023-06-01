@@ -76,7 +76,7 @@
       </div>
 <!--       <p>Payment qr code: <a href="{% static 'images/qr.png' %}" style="text-decoration: underline; color: blue;" download>download</a></p> -->
       <div class="row">
-        {% for order in make_orders %}
+        {% for order,i in make_orders %}
         <div class="col-md-6 col-lg-4 col-xl-4">
           <div class="blog-box">
             <div class="orders-container">
@@ -155,29 +155,29 @@
           </div>
         </div>
 
-        <!-- <div class="modal fade" id="exampleModalToggle{{order.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModalToggle{{order.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Make Payment</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Ordered Items</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
-                <form action="{% url 'payment' user.pk order.id%}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
                 <div class="modal-body">
-                    <div class="upload-files-container">
-                        <input type="file" name="scrn" class="form-control" required>
-                    </div>
+                    <div class="row">
+                        <div class = "col">Item</div>
+                        <div class = "col">Price</div>
+                    </div> 
+                    <div class="row">
+                        <div class = "col">{{j.item_name}}</div>
+                        <div class = "col">{{j.price}}</div>
+                    </div> 
+                    
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="form-control cancel-order-btn"> Upload </button>
-                </div>
-                </form>
             </div>
             </div>
-        </div> -->
+        </div>
         {% endfor %}
       </div>
     </div>
