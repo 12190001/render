@@ -72,8 +72,8 @@
                   aria-expanded="false"
                   style="padding:0 1rem"
                 >
-                  {% if user.image.url %}
-                  <img src = {{user.image.url}} width="50" height="50" >
+                  {% if user.image %}
+                  <img src = {{user.image}} width="50" height="50" >
                   {% else %}
                   <i class="fa fa-user s_color"></i>
                   {% endif %}
