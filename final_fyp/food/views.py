@@ -360,7 +360,7 @@ def menu(request, object_id):
         menus = menus.order_by('price')
         sort_option = default_sort_option
 
-    items_per_page = 2
+    items_per_page = 3
 
     paginator = Paginator(menus, items_per_page)
 
