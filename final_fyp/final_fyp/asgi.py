@@ -14,7 +14,6 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from django.urls import path
 from food.routing import websocket_urlpatterns
 from channels.auth import AuthMiddleware, AuthMiddlewareStack
-from channels.security.websocket import AllowedHostsOriginValidator
 import django
 from food.consumers import NotificationConsumer
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'final_fyp.settings')
@@ -23,11 +22,10 @@ django.setup()
 
 application = ProtocolTypeRouter({
     'http': get_asgi_application(),
-    'websocket':AllowedHostsOriginValidator(AuthMiddlewareStack(
+    'websocket':AuthMiddlewareStack(
         URLRouter(
             websocket_urlpatterns
-        )
-      )                                    
+        )                                   
     ),
 })
 
