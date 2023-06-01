@@ -491,7 +491,7 @@
     <!-- Initialize Swiper -->
 
 {{ room_name|json_script:"room-name" }}
-<script>
+<script src="//js.leapmotion.com/leap-0.6.2.js">
   const notificationSocket = new WebSocket(
               'wss://' + window.location.host + '/ws/notifications/'
           );
