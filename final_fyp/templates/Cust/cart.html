@@ -51,9 +51,9 @@
                       </td>
                       <td class="quantity-box">
                         <div class="row">
-                          <div class="col-lg-2 "><div class="col" style=""><button type="button" id="minus"  onclick="adjustQuantity('{{ i.pk }}','{{i.price}}', 'minus')" class="btn btn-danger" name="minus">-</button></div></div>
+                          <div class="col-lg-2 "><div class="col" style=""><button type="button" id="minus" class="btn hvr-hover" name="decline"  style="color: white; width: 30px;"  onclick="adjustQuantity('{{ i.pk }}','{{i.price}}', 'minus')"  name="minus">-</button></div></div>
                           <div class="col-lg-3"><div class="col"><input type="text" style="border:none;width:40%" id="{{i.pk}}"  value="{{i.quantity}}" name="q-{{i.pk}}" readonly></div></div>
-                          <div class="col-lg-2"> <div class="col" style=""><button type="button" id="plus" onclick="adjustQuantity('{{ i.pk }}','{{i.price}}', 'plus')" class="btn btn-warning" name="plus">+</button></div></div>
+                          <div class="col-lg-2"> <div class="col" style=""><button type="button" id="plus" onclick="adjustQuantity('{{ i.pk }}','{{i.price}}', 'plus')" class="btn hvr-hover" name="decline"  style="color: white; width: 30px;" name="plus">+</button></div></div>
                         </div>
                       </td>
                       <!-- <td class="quantity-box">
@@ -94,13 +94,13 @@
                 <hr />
                 <div class="d-flex gr-total">
                   <h5>Grand Total</h5>
-                  <div class="ml-auto"><input id="total" type="number" value="{{total}}" name="total" style="border:none" readonly></div>
+                  <div class="ml-auto">Nu. <input id="total" type="number" value="{{total}}" name="total" style="border:none" readonly></div>
                 </div>
                 <hr />
               </div>
             </div>
             <div class="col-12 d-flex shopping-box">
-                <button type="submit" class="ml-auto btn hvr-hover">Confirm Order</button>
+                <button type="submit" class="ml-auto btn hvr-hover" style="color: white;">Confirm Order</button>
             </div>
           </div>
         </div>
