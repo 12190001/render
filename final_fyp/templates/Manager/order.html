@@ -20,23 +20,24 @@
           <form action="{% url 'approval' user.pk %}" method="POST">
             {% csrf_token %}
             {% if i.status == 'Waiting' %}
-            <button type="submit" class="btn btn-success" name="accept" value="{{i.pk}}">Accept</button>
-            <button type="submit" class="btn btn-danger" name="decline" value="{{i.pk}}">Decline</button>
+            <button type="submit" class="btn hvr-hover" name="accept" style="color: white; width: 90px;" value="{{i.pk}}">Accept</button>
+            <button type="submit" class="btn hvr-hover" name="decline"  style="color: white; width: 90px; background-color: red;" value="{{i.pk}}">Decline</button>
             {% elif i.status == 'In_progress' %}
-            <button type="submit" class="btn btn-warning" name="ready" value="{{i.pk}}">Ready</button>
+            <button type="submit" class="btn hvr-hover" style="color: white;" name="ready" value="{{i.pk}}">Ready</button>
             {% elif i.status == 'Declined' %}
             Declined
             {% elif i.status == 'Completed' %}
               {%if i.payment_status == 'paid_by_online' %}
                 Journal: {{i.jrnl_no}}
+                Contact: {{i.customer_id.contact_number}}
               {% else %}
                 Paid(Cash)
               {% endif %}
             {% elif i.status == 'Cancel' %}
               Cancelled
             {% else %}
-            <button type="submit" class="btn btn-warning" name="cash" value="{{i.pk}}">Payment(cash)</button>
-            <button type="button" data-toggle="modal" data-target="#payment{{i.id}}" class="btn btn-warning">Payment(online)</button>
+            <button type="submit"class="btn hvr-hover" style="color: white; width: 90px;" name="cash" value="{{i.pk}}">cash</button>
+            <button type="button" data-toggle="modal" data-target="#payment{{i.id}}" class="btn hvr-hover" style="color: white; width: 90px;">online</button>
             {% endif %}
           </form>
 
