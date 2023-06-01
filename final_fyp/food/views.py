@@ -9,11 +9,9 @@ import random
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string, get_template
 from django.contrib.auth import authenticate,login,logout
-# from bson import ObjectId
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
-# import cv2
 from django.core.files.storage import FileSystemStorage
 import os
 from datetime import datetime
@@ -33,6 +31,38 @@ def home(request):
     return render(request, 'food-ordering/index.html')
 
 def search_menu(request, object_id):
+    sort_option = request.GET.get('sort_option', None)
+
+    default_sort_option = 'price'
+
+    menus = MenuItems.objects.filter(is_seen=True) if request.user.role == 'customer' else MenuItems.objects.all()
+
+    if sort_option == 'sortByOrders':
+        menus = menus.annotate(num_orders=Count('orderitems')).order_by('-num_orders')
+    elif sort_option == 'HighToLow':
+        menus = menus.order_by('-price')
+    elif sort_option == 'LowToHigh':
+        menus = menus.order_by('price')
+    else:
+        menus = menus.order_by('price')
+        sort_option = default_sort_option
+
+    items_per_page = 2
+
+    paginator = Paginator(menus, items_per_page)
+
+    page_number = request.GET.get('page')
+
+    page = paginator.get_page(page_number)
+    menu_count = menus.count()
+
+    start_index = (page.number - 1) * items_per_page
+    end_index = start_index + len(page)
+
+
+    menu_per_page = end_index - start_index
+
+    context = {'page': page, 'sort_option': sort_option, 'menu_count': menu_count, 'menu_per_page':menu_per_page}
     context = {}
     if request.method == 'POST':
         search_item = request.POST.get('name')
@@ -172,11 +202,12 @@ def owner_dashboard(request):
     from django.utils import timezone
     sales = OrderItems.objects.aggregate(total=Sum('quantity'))['total']
     revenue = Basket.objects.aggregate(total=Sum('bill'))['total']
-    customers = CustomUser.objects.exclude(Q(role='manager') | Q(role='owner')).count()
+    customers = CustomUser.objects.filter(role='customer').count()
     cancel = Basket.objects.filter(status = 'Cancel').count()
     top_selling = []
     month_list = []
     orders_in_month = []
+    payment_report = []
 
     import datetime
     import calendar
@@ -190,12 +221,13 @@ def owner_dashboard(request):
                 month_list.append(calendar.month_name[month])
                 num = Basket.objects.filter(month = month).count()
                 orders_in_month.append(num)
+                payment_report.append(Basket.objects.filter(month=month).aggregate(total=Sum('bill'))['total'])
 
     for items in MenuItems.objects.all():
         item = OrderItems.objects.filter(item_name = items.item_name).aggregate(total=Sum('quantity'))['total']
         price = OrderItems.objects.filter(item_name = items.item_name).aggregate(total=Sum('price'))['total']
         top_selling.append({'item_name': items.item_name, 'quantity': item, 'price': price, 'image':items.image})
-    print(top_selling)
+
     # order_counts = Basket.objects.annotate(month=TruncMonth('order_date')).values('month').annotate(count=Count('id')).order_by('month')
 
     context = {
@@ -204,10 +236,11 @@ def owner_dashboard(request):
         'customers':customers,
         'cancel':cancel,
         'feedback':Feedback.objects.order_by('-id'),
-        'top_selling':top_selling,
+        'top_selling':top_selling[:3],
         'baskets':Basket.objects.all(),
         'months':month_list,
-        'orders_in_month':orders_in_month
+        'orders_in_month':orders_in_month,
+        'payment_report':payment_report
     }
 
     return render(request, 'owner_final/owner_dashboard.html', context)
@@ -304,7 +337,8 @@ def dashboard(request,object_id):
 
     context = {
         'menu': MenuItems.objects.filter(is_seen=True),
-        'top_ordered_food':top_ordered_food
+        'top_ordered_food':top_ordered_food,
+        'current_page': 'dashboard'
     }
     return render(request, 'food-ordering/dashboard.html', context)
 
@@ -341,7 +375,7 @@ def menu(request, object_id):
 
     menu_per_page = end_index - start_index
 
-    context = {'page': page, 'sort_option': sort_option, 'menu_count': menu_count, 'menu_per_page':menu_per_page}
+    context = {'page': page, 'sort_option': sort_option, 'menu_count': menu_count, 'menu_per_page':menu_per_page, 'current_page': 'menu'}
     # data = MenuItems.objects.all()
     # context = {
     #     'data':data,
@@ -371,7 +405,7 @@ def create_menu(request, object_id):
 def delete_menu(request, object_id, pk):
     MenuItems.objects.filter(pk = pk).delete()
     messages.success(request, "Menu successfully deleted.")
-    return redirect(f'/dashboard/{object_id}/menu/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
 def update_menu(request, object_id, pk):
@@ -408,7 +442,8 @@ def manage_order(request, object_id):
         all_order_items.append(item)
     context = {
         'orders_request':zip(Basket.objects.exclude(status = 'Created')[::-1],all_order_items[::-1]),
-        'all_items':all_order_items
+        'all_items':all_order_items,
+        'current_page': 'manage_order'
     }
     return render(request, 'Manager/order.html', context)
 
@@ -425,6 +460,7 @@ def approval(request, object_id):
                 message = "The manager has accepted your order."
                 Notification.objects.create(
                     customer = cust,
+                    receiver = basket.customer_id.email,
                     notification = message
                 )
                 channel_layer = get_channel_layer()
@@ -440,6 +476,7 @@ def approval(request, object_id):
                 message = "Your order is ready."
                 Notification.objects.create(
                     customer = cust,
+                    receiver = basket.customer_id.email,
                     notification = message
                 )
 
@@ -456,6 +493,7 @@ def approval(request, object_id):
                 message = "The manager has declined your order due to insufficient of accessories."
                 Notification.objects.create(
                     customer = cust,
+                     receiver = basket.customer_id.email,
                     notification = message
                 )
                 channel_layer = get_channel_layer()
@@ -487,13 +525,12 @@ def add_order(request, object_id, pk):
         Basket.objects.create(customer_id = CustomUser.objects.get(email = request.user), status = 'Created')
         basket = Basket.objects.filter(customer_id = CustomUser.objects.get(email = request.user), status = 'Created').first()
 
-    if request.method == 'POST':
-        if order.is_seen == False:
-            messages.error(request, 'The item is not available at the moment')
-        else:
-            if OrderItems.objects.filter(basket_id = basket, item_name = order.item_name).first():
+    if order.is_seen == False:
+        messages.error(request, 'The item is not available at the moment')
+    else:
+        if OrderItems.objects.filter(basket_id = basket, item_name = order.item_name).first():
                 messages.error(request, "The item already exists.")
-            else:
+        else:
                 OrderItems.objects.create(
                     basket_id = basket,
                     menu_id = order,
@@ -507,7 +544,7 @@ def add_order(request, object_id, pk):
                 basket.bill = order.price
                 basket.save()
                 messages.success(request, "Order successfully added.")
-    return redirect(f'/dashboard/{object_id}/menu/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
 def cart(request, object_id):
@@ -536,6 +573,7 @@ def confirm_order(request, object_id):
         basket.save()
         Notification.objects.create(
             customer = cust,
+            receiver = 'manager',
             notification = f"{request.user.first_name} {request.user.last_name} has made an order"
         )
         messages.success(request, "Order has been sent. Please wait the order to be ready.")
@@ -551,7 +589,8 @@ def orders(request, object_id):
     customer = CustomUser.objects.get(email = request.user)
     orders = Basket.objects.filter(customer_id = customer)
     context = {
-        'make_orders':orders[::-1]
+        'make_orders':orders[::-1],
+        'current_page': 'order'
         }
     return render(request,'food-ordering/order.html',context)
 
@@ -561,6 +600,7 @@ def cancel_order(request, object_id, pk):
     message = 'Food order has been cancelled'
     Notification.objects.create(
             customer = cust,
+            receiver = 'manager',
             notification = f"{request.user.first_name} {request.user.last_name} has cancelled order"
         )
     messages.success(request, 'Order cancelled.')
@@ -572,24 +612,12 @@ def payment(request, object_id, pk):
     payment = Basket.objects.get(id = pk)
     if request.method == 'POST':
         journal = request.POST['jrnl_no']
-        # scrn = request.FILES['scrn']
-        # fs = FileSystemStorage(location=settings.MEDIA_ROOT)
-        # filename = fs.save(scrn.name, scrn)
-        # file_path = os.path.join(settings.MEDIA_ROOT, filename)
-        # # Read the image using OpenCV
-        # img = cv2.imread(file_path)
-        # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        # thresh = cv2.adaptiveThreshold(gray, 250, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 11)
-        # text = pytesseract.image_to_string(thresh)
-        # journal = int(text[(text.index('From')-9):(text.index('From'))])
         payment.jrnl_no = journal
-        # payment.screenshot = scrn
         payment.order_date = datetime.now()
         payment.payment_status = 'paid_by_online'
         payment.status = 'Completed'
         payment.save()
         messages.success(request, "Payment successful.")
-        # os.remove(file_path)
     return redirect(f'/dashboard/{object_id}/orders_requests/')
 
 @login_required
@@ -603,13 +631,17 @@ def feedback(request, object_id):
 @login_required
 def profile(request, object_id):
     profile = CustomUser.objects.get(email = request.user)
-    if request.method == 'POST':
-        profile.first_name = request.POST['first_name']
-        profile.last_name = request.POST['last_name']
-        profile.email = request.POST['email']
-        profile.contact_number = request.POST['contact']
-        profile.save()
-        messages.success(request, 'Your profile has been updated.')
+    try:
+        if request.method == 'POST':
+            profile.first_name = request.POST['first_name'] if request.POST['first_name'] != '' else profile.first_name
+            profile.last_name = request.POST['last_name'] if request.POST['last_name'] != '' else profile.last_name
+            profile.email = request.POST['email'] if request.POST['email'] != '' else profile.email
+            profile.contact_number = request.POST['contact'] if request.POST['contact'] != '' else profile.contact_number
+            profile.image = request.FILES['image'] if 'image' in request.FILES else profile.image
+            profile.save()
+            messages.success(request, 'Your profile has been updated.')
+    except Exception as e:
+        messages.error(request, e)
     return render(request, 'food-ordering/profile.html')
 
 @login_required
@@ -625,7 +657,7 @@ def change_password(request, object_id):
     return render(request, 'food-ordering/change_password.html')
 
 def about(request, object_id):
-    return render(request, 'food-ordering/about.html')
+    return render(request, 'food-ordering/about.html', {'current_page': 'about'})
 
 def logout_view(request):
     logout(request)
