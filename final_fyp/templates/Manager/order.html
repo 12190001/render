@@ -28,7 +28,7 @@
             Declined
             {% elif i.status == 'Completed' %}
               {%if i.payment_status == 'paid_by_online' %}
-                Journal: {{i.jrnl_no}}
+                Journal: {{i.jrnl_no}},
                 Contact: {{i.customer_id.contact_number}}
               {% else %}
                 Paid(Cash)
