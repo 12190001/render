@@ -493,7 +493,7 @@
 {{ room_name|json_script:"room-name" }}
 <script>
   const notificationSocket = new WebSocket(
-              'wss://' + window.location.host + '/ws/notifications/'
+              'ws://' + window.location.host + '/ws/notifications/'
           );
 
   notificationSocket.onmessage = function(e) {
@@ -515,9 +515,9 @@
               }
           };
 
-  notificationSocket.onclose = function(e) {
-              console.error('Notification socket closed unexpectedly');
-          };
+//   notificationSocket.onclose = function(e) {
+//               console.error('Notification socket closed unexpectedly');
+//           };
 
 
 
