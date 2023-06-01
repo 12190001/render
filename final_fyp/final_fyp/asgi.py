@@ -16,6 +16,9 @@ from food.routing import websocket_urlpatterns
 from channels.auth import AuthMiddleware, AuthMiddlewareStack
 import django
 from food.consumers import NotificationConsumer
+
+from some_asgi_library import AmazingMiddleware
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'final_fyp.settings')
 
 django.setup()
@@ -28,6 +31,8 @@ application = ProtocolTypeRouter({
         )                                   
     ),
 })
+
+application = AmazingMiddleware(application)
 
 
 
