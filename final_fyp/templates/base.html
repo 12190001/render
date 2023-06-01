@@ -72,11 +72,11 @@
                   aria-expanded="false"
                   style="padding:0 1rem"
                 >
-                  <i class="fa fa-user s_color" style="color: white;"></i>
+                  <img src = {{user.image.url}} width="50" height="50" >
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <div class="dropdown-item">
-                    <i class="fa fa-user s_color"></i> {{user.first_name}} {{user.last_name}}
+                    <img src = {{user.image.url}} width="50" height="50"> {{user.first_name}} {{user.last_name}}
                   </div>
                   <hr>
                   <a class="dropdown-item" href="{% url 'profile' user.pk %}"
