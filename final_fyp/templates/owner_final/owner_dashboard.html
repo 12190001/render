@@ -17,25 +17,9 @@
             <!-- Sales Card -->
             <div class="col-xxl-3 col-md-3">
               <div class="card info-card sales-card">
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"
-                    ><i class="bi bi-three-dots"></i
-                  ></a>
-                  <ul
-                    class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                  >
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
+                  <h5 class="card-title">Sales</h5>
 
                   <div class="d-flex align-items-center">
                     <div
@@ -57,26 +41,10 @@
             <!-- Revenue Card -->
             <div class="col-xxl-3 col-md-3">
               <div class="card info-card revenue-card">
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"
-                    ><i class="bi bi-three-dots"></i
-                  ></a>
-                  <ul
-                    class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                  >
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
 
                 <div class="card-body">
                   <h5 class="card-title">
-                    Revenue <span>| This Month</span>
+                    Revenue
                   </h5>
 
                   <div class="d-flex align-items-center">
@@ -99,26 +67,10 @@
             <!-- Customers Card -->
             <div class="col-xxl-3 col-md-3">
               <div class="card info-card customers-card">
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"
-                    ><i class="bi bi-three-dots"></i
-                  ></a>
-                  <ul
-                    class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                  >
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
 
                 <div class="card-body">
                   <h5 class="card-title">
-                    Customers <span>| This Year</span>
+                    Customers
                   </h5>
 
                   <div class="d-flex align-items-center">
@@ -141,26 +93,10 @@
              <!-- Cancellation Card -->
              <div class="col-xxl-3 col-md-3">
               <div class="card info-card customers-card">
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"
-                    ><i class="bi bi-three-dots"></i
-                  ></a>
-                  <ul
-                    class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                  >
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
 
                 <div class="card-body">
                   <h5 class="card-title">
-                    Cancelled Orders <span>| This Year</span>
+                    Cancelled Orders
                   </h5>
 
                   <div class="d-flex align-items-center">
@@ -182,25 +118,11 @@
             <!-- Reports -->
             <div class="col-12">
               <div class="card">
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"
-                    ><i class="bi bi-three-dots"></i
-                  ></a>
-                  <ul
-                    class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                  >
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
                 <div class="row">
-                    <div class=""> <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
+                  <div class="col-8">
+                  <div class="card-body">
+                  <h5 class="card-title">Reports</h5>
 
                   <!-- Line Chart -->
                   <div id="reportsChart"></div>
@@ -253,7 +175,27 @@
                     });
                   </script>
                   <!-- End Line Chart -->
-                </div></div>
+                </div>
+              </div>
+              <div class="col-4 pt-4" >
+                <div class="row ">
+                  <div class="col">Month</div>
+                  <div class="col">Report</div>
+                </div>
+                <div class="row pt-4">
+                  <div class="col">
+                    {% for i in months %}
+                      {{i}}
+                    {% endfor %}
+                  </div>
+                  <div class="col">
+                    {% for i in payment_report %}
+                      {{i}}
+                    {% endfor %}
+                  </div>
+                </div>
+
+              </div>
                 </div>
 
               </div>
