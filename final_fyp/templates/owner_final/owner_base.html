@@ -199,18 +199,14 @@
     <script src="{% static 'assets/js/main.js'%}"></script>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 	<script>
-		"{% for flashmsg in messages %}"
+		" {% for flashmsg in messages %}"
 			alertify.set('notifier','position', 'top-center');
 			"{% if flashmsg.tags == 'success' %}"
 				alertify.success('{{ flashmsg }}');
-			"{% elif flashmsg.tags == 'warning' %}"
-				alertify.warning('{{ flashmsg }}');
-			"{% elif flashmsg.tags == 'error' %}"
-				alertify.error('{{ flashmsg }}');
 			" {% else %}"
-				alertify.message('{{ flashmsg }}');
+				alertify.error('{{ flashmsg }}');
 			"{% endif %}"
-		"{% endfor %}"
+		"  {% endfor %}"
 	</script>
     {% block script %}
 
