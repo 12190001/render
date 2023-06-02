@@ -24,11 +24,13 @@
         <div class="col-lg-4 col-sm-12">
             <div class="contact-info-left">
               <h2>User INFO</h2>
+              {% if user.image.url != None %}
               <img
-                src="images/profile.jpg"
+                src="{{user.image.url}}"
                 style="border-radius: 100%; max-height: 100px"
                 alt=""
               />
+              {% endif %}
               <ul>
                 <li>
                   <p><i class="fas fa-id-card"></i>Username: {{user.first_name}} {{user.last_name}}</p>
@@ -47,7 +49,7 @@
         <div class="col-lg-8 col-sm-12">
           <div class="contact-form-right">
             <h2>User Update</h2>
-            <form action="{% url 'profile' user.pk %}" method="POST">
+            <form action="{% url 'profile' user.pk %}" method="POST" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="row">
                 <!-- <div class="col-md-12">
@@ -110,6 +112,20 @@
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <input
+                      type="file"
+                      class=""
+                      name="image"
+                      placeholder=""
+                      accept="image/*"
+                    />
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+
                 <div class="col-md-12">
                   <div class="submit-button text-center">
                     <button class="btn hvr-hover" id="submit" type="submit">
@@ -119,7 +135,7 @@
                 </div>
               </div>
             </form>
-            <a href="{% url 'change_password' user.pk %}">Change Password?</a>
+
           </div>
         </div>
       </div>
