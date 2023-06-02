@@ -117,6 +117,23 @@ class Notification(models.Model):
 
     class Meta:
         ordering = ['-broadcast_on']
+    def save(self, *args, **kwars):
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)("notification", {
+        "type": "notify_manager",
+        "message": f"New food request:{self.notification}",
+        })
+        # channel_layer = get_channel_layer()
+        # print('saved')
+        # notification_objs = 4
+        # data = {'count':notification_objs, 'current_notification':self.notification}
+        # async_to_sync(channel_layer.group_send)(
+        #     'test_consumer_group', {
+        #         'type':'send_notification',
+        #         'value':json.dumps(data)
+        #     }
+        # )
+        super(Notification, self).save(*args, **kwars)
 
 class Feedback(models.Model):
     customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
