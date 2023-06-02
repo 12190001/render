@@ -25,10 +25,28 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 def home(request):
+    context = {}
     if request.user.is_authenticated:
         if request.user.role != 'owner':
             return redirect(f'/dashboard/{request.user.id}/')
-    return render(request, 'food-ordering/index.html')
+    else:
+        top_ordered_food = OrderItems.objects.values('menu_id__item_name', 'menu_id__image').annotate(total_ordered=Sum('quantity')).order_by('-total_ordered')[:10]
+        import os
+        from django.conf import settings
+
+        # assume that the string is "/media/my_image.png"
+        for i in top_ordered_food:
+            print(i['menu_id__image'])
+            image_url = os.path.join(settings.MEDIA_URL, i['menu_id__image'])
+            print(image_url)
+            i['menu_id__image'] = image_url
+
+        context = {
+            'menu': MenuItems.objects.filter(is_seen=True),
+            'top_ordered_food':top_ordered_food,
+            'current_page': 'dashboard'
+        }
+    return render(request, 'food-ordering/index.html', context)
 
 def search_menu(request, object_id):
     sort_option = request.GET.get('sort_option', None)
