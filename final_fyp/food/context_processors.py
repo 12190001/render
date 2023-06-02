@@ -42,11 +42,14 @@ def top_food(request):
             item.is_new_item = True
             item.save()
         MenuItems.objects.exclude(pk__in=[item.pk for item in new_items]).update(is_new_item=False)
-        context = {
-            'newitems': new_items,
-            'menu': MenuItems.objects.all(),
-            'top_ordered_food':top_ordered_food
-        }
+        context['newitems'] = new_items
+        context['menu'] = MenuItems.objects.all()
+        context['top_ordered_food'] = top_ordered_food
+#         context = {
+#             'newitems': ,
+#             'menu': ,
+#             'top_ordered_food':
+#         }
     return context
 
 
