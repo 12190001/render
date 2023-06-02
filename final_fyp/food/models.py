@@ -3,8 +3,8 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
-# from djongo import models
-from django.db import models
+from djongo import models
+# from django.db import models
 from django.contrib.auth.hashers import make_password
 
 from channels.layers import get_channel_layer
@@ -31,6 +31,7 @@ class UserManager(BaseUserManager):
         user = self.create_user(email,password)
         user.is_staff = True
         user.is_superuser = True
+        user.role = 'admin'
         user.save(using = self._db)
         return user
 
@@ -45,7 +46,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = [
         ('customer', 'customer'),
         ('manager', 'manager'),
-        ('owner', 'owner')
+        ('owner', 'owner'),
+        ('admin','admin')
     ]
     role = models.CharField(max_length=255, choices=ROLE_CHOICES, default='customer')
     is_active = models.BooleanField(default=True)
@@ -67,6 +69,9 @@ class MenuItems(models.Model):
     description = models.TextField()
     price = models.IntegerField()
     is_seen = models.BooleanField(default=True)
+    creation_date = models.DateTimeField(null=True,blank=True,auto_now_add=True)
+    is_top_ordered = models.BooleanField(default=False)
+    is_new_item = models.BooleanField(default=False)
 
 class Basket(models.Model):
     customer_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -113,26 +118,11 @@ class Notification(models.Model):
     class Meta:
         ordering = ['-broadcast_on']
 
-    def save(self, *args, **kwars):
-        channel_layer = get_channel_layer()
-        async_to_sync(channel_layer.group_send)("notification", {
-        "type": "notify_manager",
-        "message": f"New food request:{self.notification}",
-        })
-        # channel_layer = get_channel_layer()
-        # print('saved')
-        # notification_objs = 4
-        # data = {'count':notification_objs, 'current_notification':self.notification}
-        # async_to_sync(channel_layer.group_send)(
-        #     'test_consumer_group', {
-        #         'type':'send_notification',
-        #         'value':json.dumps(data)
-        #     }
-        # )
-        super(Notification, self).save(*args, **kwars)
-
 class Feedback(models.Model):
     customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # name = models.CharField(max_length=255, null=True, blank=True, default=None)
+    # email = models.CharField(max_length=255, null=True, blank=True, default=None)
+    # subject = models.CharField(max_length=255, null=True, blank=True, default=None)
     description = models.TextField()
 
 
