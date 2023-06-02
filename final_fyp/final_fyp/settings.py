@@ -72,7 +72,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'food.context_processors.orders',
-                'food.context_processors.notifications'
+                'food.context_processors.notifications',
+                'food.context_processors.top_food'
+                
             ],
         },
     },
