@@ -21,6 +21,7 @@ def notifications(request):
     return {'notification':allnotifications}
 
 def top_food(request):
+    context = {}
     top_ordered_food = OrderItems.objects.values('menu_id__item_name', 'menu_id__image', 'menu_id__description', 'menu_id__price').annotate(total_ordered=Sum('quantity')).order_by('-total_ordered')[:3]
     import os
     from django.conf import settings
