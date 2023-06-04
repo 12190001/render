@@ -513,6 +513,7 @@
           );
 
   notificationSocket.onmessage = function(e) {
+              alertify.set('notifier','position', 'top-center');
               const data = JSON.parse(e.data);
               if (data.type === "notification") {
                   // Handle the notification
@@ -524,10 +525,12 @@
                   console.log(parseInt(document.getElementById('badgemanager')))
                   document.getElementById('badgemanager').innerHTML = parseInt(document.getElementById('badgemanager').innerHTML) + 1;
                   document.getElementById('notify_manager').innerHTML += `<li><a href="{% url 'manage_order' user.pk %}"><p><span class="price">'`+message+`'</span></p></a></li>`
+                  alertify.success(message);
                 }
                 if(approval){
                   document.getElementById('badge').innerHTML = parseInt(document.getElementById('badge').innerHTML) + 1;
                   document.getElementById('notification').innerHTML += `<li><a href="{% url 'orders' user.pk %}"><p><span class="price">'`+approval+`'</span></p></a></li>`
+                  alertify.success(approval);
                 }
               }
           };
