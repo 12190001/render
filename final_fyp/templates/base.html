@@ -270,7 +270,7 @@
             </ul>
             <ul id="" class="cart-list">
               {% for i in cust_notifications %} 
-              <li>{{i}}<br>{{i.broadcast_on}}</li>
+              <li>{{i.notification}}<br>{{i.broadcast_on}}</li>
               {% endfor %}
             </ul>
             
@@ -285,7 +285,7 @@
             </ul>
              <ul id="" class="cart-list">
               {% for i in notifications %} 
-              <li>{{i}}<br>{{i.broadcast_on}}</li>
+              <li>{{i.notification}}<br>{{i.broadcast_on}}</li>
               {% endfor %}
             </ul>
           </li>
