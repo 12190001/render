@@ -18,7 +18,11 @@ def orders(request):
 
 def notifications(request):
     allnotifications = Notification.objects.filter(receiver = 'manager')
-    cust_notifications = Notification.objects.filter(receiver = request.user.email)
+    cust_notifications = ''
+    try:
+        cust_notifications = Notification.objects.filter(receiver = request.user.email)
+    except:
+        cust_notifications = ''
     return {'notification':allnotifications, 'cust_notifications':cust_notifications}
 
 def top_food(request):
