@@ -23,7 +23,7 @@ def notifications(request):
         cust_notifications = Notification.objects.filter(receiver = request.user.email)
     except:
         cust_notifications = ''
-    return {'notification':allnotifications, 'cust_notifications':cust_notifications}
+    return {'notification':allnotifications[::-1], 'cust_notifications':cust_notifications[::-1]}
 
 def top_food(request):
     context = {}
