@@ -75,7 +75,7 @@
                   {% if user.image %}
                   <img src = {{user.image}} width="50" height="50" >
                   {% else %}
-                  <i class="fa fa-user s_color"></i>
+                  <i class="fa fa-user s_color" style="color:#ffffff"></i>
                   {% endif %}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -268,6 +268,13 @@
           <li class="cart-box">
             <ul id="notification" class="cart-list">
             </ul>
+            <ul id="" class="cart-list">
+              {% for i in cust_notifications %} 
+              <li>{{i}}<br>{{i.broadcast_on}}</li>
+              {% endfor %
+            </ul>
+            
+
           </li>
         </div>
         {% else %}
@@ -275,6 +282,11 @@
           <a href="#" class="close-side"><i class="fa fa-times"></i></a>
           <li class="cart-box">
             <ul class="cart-list" id="notify_manager">
+            </ul>
+             <ul id="" class="cart-list">
+              {% for i in notifications %} 
+              <li>{{i}}<br>{{i.broadcast_on}}</li>
+              {% endfor %
             </ul>
           </li>
         </div>
