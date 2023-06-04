@@ -17,8 +17,9 @@ def orders(request):
         return {}
 
 def notifications(request):
-    allnotifications = Notification.objects.all()
-    return {'notification':allnotifications}
+    allnotifications = Notification.objects.filter(receiver = 'manager')
+    cust_notifications = Notification.objects.filter(receiver = request.user.email)
+    return {'notification':allnotifications, 'cust_notifications':cust_notifications}
 
 def top_food(request):
     context = {}
