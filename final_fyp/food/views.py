@@ -463,7 +463,8 @@ def approval(request, object_id):
                 Notification.objects.create(
                     customer = cust,
                     receiver = basket.customer_id.email,
-                    notification = message
+                    notification = message,
+                    broadcast_on =  datetime.now()
                 )
                 channel_layer = get_channel_layer()
                 async_to_sync(channel_layer.group_send)("notification", {
@@ -479,7 +480,8 @@ def approval(request, object_id):
                 Notification.objects.create(
                     customer = cust,
                     receiver = basket.customer_id.email,
-                    notification = message
+                    notification = message,
+                    broadcast_on =  datetime.now()
                 )
 
                 channel_layer = get_channel_layer()
@@ -496,7 +498,8 @@ def approval(request, object_id):
                 Notification.objects.create(
                     customer = cust,
                      receiver = basket.customer_id.email,
-                    notification = message
+                    notification = message,
+                     broadcast_on =  datetime.now()
                 )
                 channel_layer = get_channel_layer()
                 async_to_sync(channel_layer.group_send)("notification", {
@@ -576,7 +579,8 @@ def confirm_order(request, object_id):
         Notification.objects.create(
             customer = cust,
             receiver = 'manager',
-            notification = f"{request.user.first_name} {request.user.last_name} has made an order"
+            notification = f"{request.user.first_name} {request.user.last_name} has made an order",
+            broadcast_on =  datetime.now()
         )
         messages.success(request, "Order has been sent. Please wait the order to be ready.")
     return redirect(f'/dashboard/{object_id}/menu/')
