@@ -25,40 +25,40 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 def home(request):
-
     if request.user.is_authenticated:
         if request.user.role != 'owner':
             return redirect(f'/dashboard/{request.user.id}/')
-   context = {}
-   top_ordered_food = OrderItems.objects.values('menu_id__item_name', 'menu_id__image', 'menu_id__description', 'menu_id__price').annotate(total_ordered=Sum('quantity')).order_by('-total_ordered')[:3]
-   import os
-   from django.conf import settings
 
-    # assume that the string is "/media/my_image.png"
-   for i in top_ordered_food:
+    context = {}
+    top_ordered_food = OrderItems.objects.values('menu_id__item_name', 'menu_id__image', 'menu_id__description', 'menu_id__price').annotate(total_ordered=Sum('quantity')).order_by('-total_ordered')[:3]
+    
+    import os
+    from django.conf import settings
+
+    for i in top_ordered_food:
         image_url = os.path.join(settings.MEDIA_URL, i['menu_id__image'])
         i['menu_id__image'] = image_url
         menu_item = MenuItems.objects.get(item_name=i['menu_id__item_name'])
         menu_item.is_top_ordered = True
         menu_item.save()
 
-        new_items = MenuItems.objects.order_by('-creation_date')[:2]
+    new_items = MenuItems.objects.order_by('-creation_date')[:2]
 
-        for item in new_items:
-            item.is_new_item = True
-            item.save()
-        MenuItems.objects.exclude(pk__in=[item.pk for item in new_items]).update(is_new_item=False)
-    #         context['newitems'] = 
-    #         context['menu'] = 
-    #         context['top_ordered_food'] =
-        context = {
-            'newitems':new_items ,
-            'menu':MenuItems.objects.all() ,
-            'top_ordered_food':  top_ordered_food
-            'current_page': 'home'
-        }
-  
+    for item in new_items:
+        item.is_new_item = True
+        item.save()
+
+    MenuItems.objects.exclude(pk__in=[item.pk for item in new_items]).update(is_new_item=False)
+
+    context = {
+        'newitems': new_items,
+        'menu': MenuItems.objects.all(),
+        'top_ordered_food': top_ordered_food,
+        'current_page': 'home'
+    }
+
     return render(request, 'food-ordering/index.html', context)
+
 
 # def home(request):
 #       context = {}
