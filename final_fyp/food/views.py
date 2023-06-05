@@ -29,24 +29,36 @@ def home(request):
     if request.user.is_authenticated:
         if request.user.role != 'owner':
             return redirect(f'/dashboard/{request.user.id}/')
-    top_ordered_food = OrderItems.objects.values('menu_id__item_name', 'menu_id__image').annotate(total_ordered=Sum('quantity')).order_by('-total_ordered')[:10]
-    import os
-    from django.conf import settings
+   context = {}
+   top_ordered_food = OrderItems.objects.values('menu_id__item_name', 'menu_id__image', 'menu_id__description', 'menu_id__price').annotate(total_ordered=Sum('quantity')).order_by('-total_ordered')[:3]
+   import os
+   from django.conf import settings
 
     # assume that the string is "/media/my_image.png"
-    for i in top_ordered_food:
-        print(i['menu_id__image'])
+   for i in top_ordered_food:
         image_url = os.path.join(settings.MEDIA_URL, i['menu_id__image'])
-        print(image_url)
         i['menu_id__image'] = image_url
+        menu_item = MenuItems.objects.get(item_name=i['menu_id__item_name'])
+        menu_item.is_top_ordered = True
+        menu_item.save()
 
-    context = {
-        'menu': MenuItems.objects.filter(is_seen=True),
-        'top_ordered_food':top_ordered_food,
-        'current_page': 'home'
-    }
+        new_items = MenuItems.objects.order_by('-creation_date')[:2]
+
+        for item in new_items:
+            item.is_new_item = True
+            item.save()
+        MenuItems.objects.exclude(pk__in=[item.pk for item in new_items]).update(is_new_item=False)
+    #         context['newitems'] = 
+    #         context['menu'] = 
+    #         context['top_ordered_food'] =
+        context = {
+            'newitems':new_items ,
+            'menu':MenuItems.objects.all() ,
+            'top_ordered_food':  top_ordered_food
+            'current_page': 'home'
+        }
   
-    return render(request, 'food-ordering/index.html')
+    return render(request, 'food-ordering/index.html', context)
 
 # def home(request):
 #       context = {}
