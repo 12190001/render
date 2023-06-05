@@ -23,7 +23,7 @@ from asgiref.sync import async_to_sync
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 
-Create your views here.
+# Create your views here.
 def home(request):
 
     if request.user.is_authenticated:
