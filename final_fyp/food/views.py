@@ -290,7 +290,7 @@ def owner_dashboard(request):
     for items in MenuItems.objects.all():
         item = OrderItems.objects.filter(item_name = items.item_name).aggregate(total=Sum('quantity'))['total']
         price = OrderItems.objects.filter(item_name = items.item_name).aggregate(total=Sum('price'))['total']
-        top_selling.append({'item_name': items.item_name, 'quantity': item, 'price': price, 'image':items.image})
+        top_selling.append({'item_name': items.item_name, 'quantity': item, 'price': price, 'image':items.image, 'item_price':items.price})
 
     # order_counts = Basket.objects.annotate(month=TruncMonth('order_date')).values('month').annotate(count=Count('id')).order_by('month')
 
