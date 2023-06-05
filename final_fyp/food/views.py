@@ -24,13 +24,13 @@ from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 
 # Create your views here.
-def home(request):
+# def home(request):
 
-    if request.user.is_authenticated:
-        if request.user.role != 'owner':
-            return redirect(f'/dashboard/{request.user.id}/')
+#     if request.user.is_authenticated:
+#         if request.user.role != 'owner':
+#             return redirect(f'/dashboard/{request.user.id}/')
   
-    return render(request, 'food-ordering/index.html')
+#     return render(request, 'food-ordering/index.html')
 
 def home(request):
       context = {}
