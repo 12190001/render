@@ -114,7 +114,7 @@
 
     // Email ID, username, password, and confirm password check
     const regForm = document.querySelector('#regForm');
-    const passReg = /^(?=.*?[a-z])(?!.*?[=?<>()'"\/\&]).{8,20}$/;
+    const passReg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[!@#$%^&*]).{8,20}$/;
     const emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     let mobileNumber = regForm.elements.namedItem('contact')
@@ -161,24 +161,44 @@
 				button.disabled = false;
             }
 		}
-        if (target.name == 'password') {
-            let passValidity = document.getElementById('password1ValidText')
-            if (passReg.test(target.value)) {
-                target.classList.add('valid')
-                target.classList.remove('invalid')
-                passValidity.textContent = 'Password Secured';
-                passValidity.classList.add('valid')
-                passValidity.classList.remove('invalid')
-				button.disabled = false;
-            } else {
-                target.classList.add('invalid')
-                target.classList.remove('valid')
-                passValidity.textContent = 'Password  must be at least 8 characters.';
-                passValidity.classList.remove('valid')
-                passValidity.classList.add('invalid')
-				button.disabled = true;
-            }
-        }
+//         if (target.name == 'password') {
+//             let passValidity = document.getElementById('password1ValidText')
+//             if (passReg.test(target.value)) {
+//                 target.classList.add('valid')
+//                 target.classList.remove('invalid')
+//                 passValidity.textContent = 'Password Secured';
+//                 passValidity.classList.add('valid')
+//                 passValidity.classList.remove('invalid')
+// 				button.disabled = false;
+//             } else {
+//                 target.classList.add('invalid')
+//                 target.classList.remove('valid')
+//                 passValidity.textContent = 'Password  must be at least 8 characters.';
+//                 passValidity.classList.remove('valid')
+//                 passValidity.classList.add('invalid')
+// 				button.disabled = true;
+//             }
+//         }
+
+	if (target.name == 'password') {
+	  let passValidity = document.getElementById('password1ValidText');
+	  if (passReg.test(target.value)) {
+	    target.classList.add('valid');
+	    target.classList.remove('invalid');
+	    passValidity.textContent = 'Password Secured';
+	    passValidity.classList.add('valid');
+	    passValidity.classList.remove('invalid');
+	    button.disabled = false;
+	  } else {
+	    target.classList.add('invalid');
+	    target.classList.remove('valid');
+	    passValidity.textContent = 'Password must be at least 8 characters with uppercase letters and symbols.';
+	    passValidity.classList.remove('valid');
+	    passValidity.classList.add('invalid');
+	    button.disabled = true;
+	  }
+	}
+
         if (target.name == 'confirmPassword') {
             let pass2Validity = document.getElementById('password2ValidText');
             let pass1Value = document.getElementById('password').value;
