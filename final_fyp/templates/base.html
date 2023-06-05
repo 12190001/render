@@ -525,12 +525,14 @@
                   console.log(parseInt(document.getElementById('badgemanager')))
                   document.getElementById('badgemanager').innerHTML = parseInt(document.getElementById('badgemanager').innerHTML) + 1;
                   document.getElementById('notify_manager').innerHTML += `<li><a href="{% url 'manage_order' user.pk %}"><p><span class="price">'`+message+`'</span></p></a></li>`
-                  alertify.warning(message);
+                  alertify.warning('<span style="color: black;">' + message + '</span>')
+//                   alertify.warning(message);
                 }
                 if(approval){
                   document.getElementById('badge').innerHTML = parseInt(document.getElementById('badge').innerHTML) + 1;
                   document.getElementById('notification').innerHTML += `<li><a href="{% url 'orders' user.pk %}"><p><span class="price">'`+approval+`'</span></p></a></li>`
-                  alertify.warning(approval);
+                  alertify.warning('<span style="color: black;">' + approval + '</span>')
+//                   alertify.warning(approval);
                 }
               }
           };
@@ -581,10 +583,7 @@ function adjustQuantity(menu_id, price, type) {
     .alertify-notifier .ajs-message {
         color: white;
     }
-    .alertify-alert.alertify-alert-warning {
-  /* CSS styles for warning alerts */
-      color: black !important;
-}
+
 </style>
   {% block script %}
 
