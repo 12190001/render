@@ -7,7 +7,7 @@
        <div class='parent'>
 		<div class='allmenu'>All Menu</div>
 		{% if user.role == 'manager' %}
-		<div class="addbutton"><a href="{% url 'create_menu' user.pk %}" style="text-decoration: none; color: #fff;"><i class="fa fa-plus-circle"></i>&nbsp; &nbsp;Add Menu</a></div>
+		<div class="addbutton"><a href="{% url 'create_menu' user.pk %}" style="text-decoration: none; color: white;"><i class="fa fa-plus-circle"></i>&nbsp; &nbsp;Add Menu</a></div>
 		{% endif %}
 	   </div>
 		<div class="menu-content">
