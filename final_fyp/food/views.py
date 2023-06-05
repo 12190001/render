@@ -33,6 +33,7 @@ from django.core.paginator import Paginator
 #     return render(request, 'food-ordering/index.html')
 
 def home(request):
+    context = {}
     if request.user.is_authenticated:
         if request.user.role != 'owner':
             return redirect(f'/dashboard/{request.user.id}/')
@@ -42,6 +43,7 @@ def home(request):
 
     # assume that the string is "/media/my_image.png"
     for i in top_ordered_food:
+      
         print(i['menu_id__image'])
         image_url = os.path.join(settings.MEDIA_URL, i['menu_id__image'])
         print(image_url)
