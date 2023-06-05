@@ -160,17 +160,18 @@
 
         if (target.name == 'email') {
             let emailValidity = document.getElementById('emailValidText')
-            emailValidity.textContent = 'Please enter a valid email address'
-            emailValidity.classList.remove('valid')
-            emailValidity.classList.add('invalid')
-			button.disabled = true;
-
             if (emailReg.test(target.value)) {
                 emailValidity.textContent = ''
                 emailValidity.classList.add('valid')
                 emailValidity.classList.remove('invalid')
 				button.disabled = false;
-            }
+            }else{
+		    emailValidity.textContent = 'Please enter a valid email address'
+		    emailValidity.classList.remove('valid')
+		    emailValidity.classList.add('invalid')
+	            button.disabled = true;
+		 
+	    }
         }
 	if (target.name == 'password') {
 	  let passValidity = document.getElementById('password1ValidText');
