@@ -271,6 +271,7 @@ def owner_dashboard(request):
     top_selling = []
     month_list = []
     orders_in_month = []
+    payment_report = []
 
     import datetime
     import calendar
