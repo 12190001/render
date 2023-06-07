@@ -284,6 +284,7 @@ def owner_dashboard(request):
                 month_list.append(calendar.month_name[month])
                 num = Basket.objects.filter(month = month).count()
                 orders_in_month.append(num)
+                payment_report.append(Basket.objects.filter(month=month).aggregate(total=Sum('bill'))['total'])
 
     for items in MenuItems.objects.all():
         item = OrderItems.objects.filter(item_name = items.item_name).aggregate(total=Sum('quantity'))['total']
@@ -301,7 +302,8 @@ def owner_dashboard(request):
         'top_selling':top_selling,
         'baskets':Basket.objects.all(),
         'months':month_list,
-        'orders_in_month':orders_in_month
+        'orders_in_month':orders_in_month,
+        'payment_report':payment_report
     }
 
     return render(request, 'owner_final/owner_dashboard.html', context)
