@@ -86,8 +86,6 @@
                   class="tab-pane fade show active profile-overview"
                   id="profile-overview"
                 >
-                  <h5 class="card-title">About</h5>
-
                   <h5 class="card-title">Profile Details</h5>
 
                   <div class="row">
@@ -143,7 +141,7 @@
                           type="text"
                           class="form-control"
                           id="first_name"
-                          value="{{user.first_name}}"
+                          placeholder = '{{user.first_name}}'
                         />
                       </div>
                     </div>
@@ -159,7 +157,7 @@
                           type="text"
                           class="form-control"
                           id="last_name"
-                          value="{{user.last_name}}"
+                          placeholder = '{{user.last_name}}'
                         />
                       </div>
                     </div>
@@ -177,7 +175,7 @@
                           type="number"
                           class="form-control"
                           id="Phone"
-                          value="{{user.contact_number}}"
+                          placeholder = '{{user.contact_number}}'
                         />
                       </div>
                     </div>
@@ -193,7 +191,8 @@
                           name="email"
                           type="email"
                           class="form-control"
-                          value="{{user.email}}"
+			  placeholder = '{{user.email}}'
+                    
                         />
                       </div>
                     </div>
