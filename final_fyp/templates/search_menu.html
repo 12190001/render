@@ -43,70 +43,80 @@
                   class="tab-pane fade show active"
                   id="grid-view"
                 >
-                  <div class="row">
-                    {% for i in data %}
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                      <div class="products-single fix">
-                        <div class="box-img-hover">
-                          <div class="type-lb">
-                            <p class="sale">Sale</p>
-                          </div>
-                          <img
-                            src="{{i.image.url}}"
-                            alt="Image"
-                            height="250px"
-                            />
-                          <div class="mask-icon">
-                            {% if user.role == 'manager' %}
-                            <ul>
-                              <li>
-                                <a
-                                  href="#"
-                                  data-toggle="tooltip"
-                                  data-placement="right"
-                                  title="View"
-                                  ><i class="fas fa-eye"></i
-                                ></a>
-                              </li>
-                              <li>
-                                <a
-                                  href="{% url 'update' user.pk i.pk%}"
-                                  data-toggle="tooltip"
-                                  data-placement="right"
-                                  title="Edit"
-                                  ><i class="fas fa-edit"></i
-                                ></a>
-                              </li>
-                              <li>
-                                <form action="{% url 'delete' user.pk%}" method="POST">
-                                    {% csrf_token %}
-                                    <button type="submit" class="delete" style="border:none" value="{{i.pk}}" name="delete_id" data-toggle="tooltip" data-placement="right"
-                                    title="Delete from menu"><i class="fas fa-trash"></i></button>
-                                </form>
-                              </li>
-                            </ul>
-                            {%else%}
-                            <div class="cart" style="position:absolute; bottom: 0;">
-                                <form action="{% url 'order' user.pk i.pk %}" method="POST">
-                                    {% csrf_token %}
-                                    <button type="submit" class='cancel-order-btn' style="border: none;">Add to cart</button>
-                                </form>
-                            </div>
-
-                            <!-- <a class="cart" href="{% url 'order' user.pk i.pk %}">Add to Cart</a> -->
-                            {% endif %}
-                          </div>
+             <div class="row">
+                  {% for i in page %}
+                  <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                    <div class="products-single fix">
+                      <div class="box-img-hover">
+                        <div class="type-lb">
+                          {% if i.is_new_item %}
+                          <p class="new">New</p>
+                          {% elif i.is_top_ordered %}
+                          <p class="sale">Sale</p>
+                          {% endif %}
                         </div>
-                        <div class="why-text">
-                          <p>{{i.item_name}}</p>
-                          <h4>{{i.description}}</h4>
-                          <h5>Nu.{{i.price}}</h5>
+                        <img src="{{i.image.url}}" alt="Image" height="250px" />
+                        <div class="mask-icon">
+                          {% if user.role == 'manager' %}
+                          <ul>
+                            <li>
+                              {% if i.is_seen == True %}
+                              <a
+                                href="{% url 'seen_true' user.pk i.pk  %}"
+                                data-toggle="tooltip"
+                                data-placement="right"
+                                title="View"
+                                ><i class="fas fa-eye"></i
+                              ></a>
+                              {% else %}
+                              <a
+                                href="{% url 'seen_false' user.pk i.pk  %}"
+                                data-toggle="tooltip"
+                                data-placement="right"
+                                title="View"
+                                ><i class="fas fa-eye-slash"></i
+                              ></a>
+                              {% endif %}
+                            </li>
+                            <li>
+                              <a
+                                href="{% url 'update' user.pk i.pk%}"
+                                data-toggle="tooltip"
+                                data-placement="right"
+                                title="Edit"
+                                ><i class="fas fa-edit"></i
+                              ></a>
+                            </li>
+                            <li>
+                              <a
+                                href="{% url 'delete' user.pk i.pk%}"
+                                data-toggle="tooltip"
+                                data-placement="right"
+                                title="Edit"
+                                ><i class="fas fa-trash"></i
+                              ></a>
+
+                            </li>
+                          </ul>
+                          {%else%}
+                          <div class="mask-icon">
+                            <a class="cart" href="{% url 'order' user.pk i.pk %}">Add to Cart</a>
+                          </div>
+
+                          <!-- <a class="cart" href="{% url 'order' user.pk i.pk %}">Add to Cart</a> -->
+                          {% endif %}
                         </div>
                       </div>
+                      <div class="why-text">
+                        <h4>{{i.item_name}}</h4>
+                        <p>{{i.description}}</p>
+                        <h5>Nu.{{i.price}}</h5>
+                      </div>
                     </div>
-                    {% endfor %}
                   </div>
+                  {% endfor %}
                 </div>
+              </div>
                 <div role="tabpanel" class="tab-pane fade" id="list-view">
                   <div class="list-view-box">
                     <div class="row">
