@@ -348,6 +348,27 @@ def owner_add_manager(request):
                         password = password,
                         role = 'manager'
                     )
+                    try:
+                        current_site = get_current_site(request)
+                        subject = 'Food ordering system'
+                        
+                                # email_from = settings.EMAIL_HOST_USER
+
+                        message2 = f"You have been registered to the system with email:{email} and password: {password}."
+                                # First send OTP through email before saving data to Database
+
+                        send_mail(
+                                    subject,
+                                    message2,
+                                    settings.EMAIL_HOST_USER,
+                                    [email],
+                                    fail_silently = True
+
+                        )
+                        
+                    except Exception as e:
+                            messages.error(request,
+                                "Failed to send message through Email."+str(e))
                     messages.success(request, "Manager successfully Added.")
                     return redirect('addmanager')
     context = {
