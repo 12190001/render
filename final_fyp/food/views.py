@@ -273,19 +273,45 @@ def owner_dashboard(request):
     orders_in_month = []
     payment_report = []
 
-    import datetime
-    import calendar
+#     import datetime
+#     import calendar
 
-    for i in Basket.objects.all():
-        if i.order_date != None:
-            dt = datetime.datetime(i.order_date.year,i.order_date.month,i.order_date.day,i.order_date.hour,i.order_date.minute,i.order_date.second,i.order_date.microsecond)
-            month = dt.month
-            num = 0
-            if calendar.month_name[month] not in month_list:
-                month_list.append(calendar.month_name[month])
-                num = Basket.objects.filter(month = month).count()
-                orders_in_month.append(num)
-                payment_report.append(Basket.objects.filter(month=month).aggregate(total=Sum('bill'))['total'])
+#     for i in Basket.objects.all():
+#         if i.order_date != None:
+#             dt = datetime.datetime(i.order_date.year,i.order_date.month,i.order_date.day,i.order_date.hour,i.order_date.minute,i.order_date.second,i.order_date.microsecond)
+#             month = dt.month
+#             num = 0
+#             if calendar.month_name[month] not in month_list:
+#                 month_list.append(calendar.month_name[month])
+#                 num = Basket.objects.filter(month = month).count()
+#                 orders_in_month.append(num)
+#                 payment_report.append(Basket.objects.filter(month=month).aggregate(total=Sum('bill'))['total'])
+
+        import datetime
+        import calendar
+
+        # ...
+
+        # Retrieve the current month
+        current_month = datetime.datetime.now().month
+
+        # Create a dictionary to hold the count and payment data for each month
+        monthly_data = {}
+
+        for month in range(1, current_month + 1):
+            month_name = calendar.month_name[month]
+            num = Basket.objects.filter(order_date__month=month).count()
+            payment = Basket.objects.filter(order_date__month=month).aggregate(total=Sum('bill'))['total']
+            monthly_data[month_name] = {'count': num, 'payment': payment}
+
+        # Update the orders_in_month and payment_report lists based on the monthly data
+        orders_in_month = [monthly_data[month]['count'] for month in month_list]
+        payment_report = [monthly_data[month]['payment'] for month in month_list]
+
+        # ...
+
+      
+
 
     for items in MenuItems.objects.all():
         item = OrderItems.objects.filter(item_name = items.item_name).aggregate(total=Sum('quantity'))['total']
@@ -294,18 +320,30 @@ def owner_dashboard(request):
 
     # order_counts = Basket.objects.annotate(month=TruncMonth('order_date')).values('month').annotate(count=Count('id')).order_by('month')
 
-    context = {
-        'sales':sales,
-        'revenue':revenue,
-        'customers':customers,
-        'cancel':cancel,
-        'feedback':Feedback.objects.order_by('-id'),
-        'top_selling':top_selling[:3],
-        'baskets':Basket.objects.all(),
-        'months':month_list,
-        'orders_in_month':orders_in_month,
-        'payment_report':payment_report
-    }
+#     context = {
+#         'sales':sales,
+#         'revenue':revenue,
+#         'customers':customers,
+#         'cancel':cancel,
+#         'feedback':Feedback.objects.order_by('-id'),
+#         'top_selling':top_selling[:3],
+#         'baskets':Basket.objects.all(),
+#         'months':month_list,
+#         'orders_in_month':orders_in_month,
+#         'payment_report':payment_report
+#     }
+       context = {
+            'sales': sales,
+            'revenue': revenue,
+            'customers': customers,
+            'cancel': cancel,
+            'feedback': Feedback.objects.order_by('-id'),
+            'top_selling': top_selling[:3],
+            'baskets': Basket.objects.all(),
+            'months': month_list,
+            'orders_in_month': orders_in_month,
+            'payment_report': payment_report
+        }
 
     return render(request, 'owner_final/owner_dashboard.html', context)
 
