@@ -127,7 +127,8 @@
            <!-- Line Chart -->
             <div id="reportsChart"></div>
 
-                  <script>
+                 <script>
+
                     document.addEventListener('DOMContentLoaded', () => {
                       new ApexCharts(
                         document.querySelector('#reportsChart'),
@@ -136,7 +137,7 @@
 
                             {
                               name: 'Orders',
-                              data: [{% for i in orders_in_month %} '{{i}}' {% endfor %}],
+                              data: {{ orders_in_month|safe }},
                             },
                           ],
                           chart: {
@@ -168,12 +169,12 @@
                           },
                           xaxis: {
                           type: 'category',
-                          categories: [{% for i in months %} '{{i}}' {% endfor %}],
+                          categories: {{months | safe}},
                         },
                         }
                       ).render();
                     });
-                  </script> 
+                  </script>
                   <!-- End Line Chart -->
                 </div>
               </div>
@@ -303,6 +304,7 @@
                     </thead>
                     <tbody>
                       {% for i in top_selling %}
+                        {% if i.price != None %}
                       <tr>
                         <th scope="row">
                           <a href="#"
@@ -318,6 +320,7 @@
                         <td class="fw-bold">{{i.quantity}}</td>
                         <td>Nu. {{i.price}}</td>
                       </tr>
+                        {% endif %}
                       {% endfor %}
                     </tbody>
                   </table>
