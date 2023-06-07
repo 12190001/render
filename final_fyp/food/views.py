@@ -266,12 +266,11 @@ def owner_dashboard(request):
     from django.utils import timezone
     sales = OrderItems.objects.aggregate(total=Sum('quantity'))['total']
     revenue = Basket.objects.aggregate(total=Sum('bill'))['total']
-    customers = CustomUser.objects.filter(role='customer').count()
+    customers = CustomUser.objects.exclude(Q(role='manager') | Q(role='owner')).count()
     cancel = Basket.objects.filter(status = 'Cancel').count()
     top_selling = []
     month_list = []
     orders_in_month = []
-    payment_report = []
 
     import datetime
     import calendar
@@ -285,15 +284,13 @@ def owner_dashboard(request):
                 month_list.append(calendar.month_name[month])
                 num = Basket.objects.filter(month = month).count()
                 orders_in_month.append(num)
-                payment_report.append(Basket.objects.filter(month=month).aggregate(total=Sum('bill'))['total'])
-
 
     for items in MenuItems.objects.all():
         item = OrderItems.objects.filter(item_name = items.item_name).aggregate(total=Sum('quantity'))['total']
         price = OrderItems.objects.filter(item_name = items.item_name).aggregate(total=Sum('price'))['total']
-        top_selling.append({'item_name': items.item_name, 'quantity': item, 'price': price, 'image':items.image, 'item_price':items.price})
-
-#     order_counts = Basket.objects.annotate(month=TruncMonth('order_date')).values('month').annotate(count=Count('id')).order_by('month')
+        top_selling.append({'item_name': items.item_name, 'quantity': item, 'price': price, 'image':items.image})
+    print(top_selling)
+    # order_counts = Basket.objects.annotate(month=TruncMonth('order_date')).values('month').annotate(count=Count('id')).order_by('month')
 
     context = {
         'sales':sales,
@@ -301,13 +298,11 @@ def owner_dashboard(request):
         'customers':customers,
         'cancel':cancel,
         'feedback':Feedback.objects.order_by('-id'),
-        'top_selling':top_selling[:3],
+        'top_selling':top_selling,
         'baskets':Basket.objects.all(),
         'months':month_list,
-        'orders_in_month':orders_in_month,
-        'payment_report':payment_report
+        'orders_in_month':orders_in_month
     }
-
 
     return render(request, 'owner_final/owner_dashboard.html', context)
 
