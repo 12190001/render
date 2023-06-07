@@ -125,7 +125,7 @@
                   <h5 class="card-title">Reports</h5>
 
                   <!-- Line Chart -->
-                  <div id="reportsChart"></div>
+<!--                   <div id="reportsChart"></div>
 
                   <script>
                     document.addEventListener('DOMContentLoaded', () => {
@@ -173,7 +173,59 @@
                         }
                       ).render();
                     });
-                  </script>
+                  </script> -->
+                      <div id="reportsChart"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const ordersData = JSON.parse('{{ orders_in_month|safe }}');
+    const monthsData = JSON.parse('{{ months|safe }}');
+
+    new ApexCharts(
+      document.querySelector('#reportsChart'),
+      {
+        series: [
+          {
+            name: 'Orders',
+            data: ordersData,
+          },
+        ],
+        chart: {
+          height: 350,
+          type: 'area',
+          toolbar: {
+            show: false,
+          },
+        },
+        markers: {
+          size: 4,
+        },
+        colors: ['#ff7a00'],
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.3,
+            opacityTo: 0.4,
+            stops: [0, 90, 100],
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: 'smooth',
+          width: 2,
+        },
+        xaxis: {
+          type: 'category',
+          categories: monthsData,
+        },
+      }
+    ).render();
+  });
+</script>
+
                   <!-- End Line Chart -->
                 </div>
               </div>
