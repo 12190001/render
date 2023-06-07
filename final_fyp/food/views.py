@@ -397,11 +397,12 @@ def owner_profile(request):
     return render(request, 'owner_final/owner_profile.html')
 
 def owner_change_password(request):
+    profile = CustomUser.objects.get(email = request.user)
     if request.method == 'POST':
         if profile.password == request.POST['current_password']:
             profile.password = request.POST['password']
             profile.save()
-            messages.success(request, 'Your profile has been updated.')
+            messages.success(request, 'Your Password has been updated.')
         else:
             messages.error(request, 'Your current password does not match with any.')
 
@@ -740,6 +741,7 @@ def profile(request, object_id):
 
 @login_required
 def change_password(request, object_id):
+    profile = CustomUser.objects.get(email = request.user)
     if request.method == 'POST':
         if profile.password == request.POST['current_password']:
             profile.password = request.POST['password']
