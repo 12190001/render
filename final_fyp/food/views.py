@@ -293,32 +293,21 @@ def owner_dashboard(request):
         price = OrderItems.objects.filter(item_name = items.item_name).aggregate(total=Sum('price'))['total']
         top_selling.append({'item_name': items.item_name, 'quantity': item, 'price': price, 'image':items.image, 'item_price':items.price})
 
-    # order_counts = Basket.objects.annotate(month=TruncMonth('order_date')).values('month').annotate(count=Count('id')).order_by('month')
+#     order_counts = Basket.objects.annotate(month=TruncMonth('order_date')).values('month').annotate(count=Count('id')).order_by('month')
 
-#     context = {
-#         'sales':sales,
-#         'revenue':revenue,
-#         'customers':customers,
-#         'cancel':cancel,
-#         'feedback':Feedback.objects.order_by('-id'),
-#         'top_selling':top_selling[:3],
-#         'baskets':Basket.objects.all(),
-#         'months':month_list,
-#         'orders_in_month':orders_in_month,
-#         'payment_report':payment_report
-#     }
-       context = {
-            'sales': sales,
-            'revenue': revenue,
-            'customers': customers,
-            'cancel': cancel,
-            'feedback': Feedback.objects.order_by('-id'),
-            'top_selling': top_selling[:3],
-            'baskets': Basket.objects.all(),
-            'months': month_list,
-            'orders_in_month': orders_in_month,
-            'payment_report': payment_report
-        }
+    context = {
+        'sales':sales,
+        'revenue':revenue,
+        'customers':customers,
+        'cancel':cancel,
+        'feedback':Feedback.objects.order_by('-id'),
+        'top_selling':top_selling[:3],
+        'baskets':Basket.objects.all(),
+        'months':month_list,
+        'orders_in_month':orders_in_month,
+        'payment_report':payment_report
+    }
+
 
     return render(request, 'owner_final/owner_dashboard.html', context)
 
