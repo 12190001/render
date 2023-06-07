@@ -382,7 +382,7 @@ def delete_manager(request):
     messages.success(request, "Manager successfully deleted.")
     return redirect('addmanager')
 
-@login_required
+
 def owner_profile(request):
     profile = CustomUser.objects.get(email = request.user)
     if request.method == 'POST':
@@ -395,7 +395,6 @@ def owner_profile(request):
         messages.success(request, 'Your profile has been updated.')
     return render(request, 'owner_final/owner_profile.html')
 
-@login_required
 def owner_change_password(request):
     if request.method == 'POST':
         if profile.password == request.POST['current_password']:
