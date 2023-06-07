@@ -384,9 +384,8 @@ def delete_manager(request):
 
 
 def owner_profile(request):
-#     profile = CustomUser.objects.get(email = request.user)
+    profile = CustomUser.objects.get(email = request.user)
     if request.method == 'POST':
-        
         image =  request.FILES['image'] if 'image' in request.FILES else profile.image
         first_name = request.POST['first_name'] if request.POST['first_name'] != "" else profile.first_name
         last_name = request.POST['last_name'] if request.POST['last_name'] != "" else profile.last_name
