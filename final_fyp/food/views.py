@@ -655,6 +655,7 @@ def orders(request, object_id):
         'make_orders':zip(orders[::-1], all_order_items),
         'current_page': 'order',
         }
+    messages.success(request, all_order_items)
     return render(request,'food-ordering/order.html',context)
 
 def cancel_order(request, object_id, pk):
