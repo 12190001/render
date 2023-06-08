@@ -367,9 +367,11 @@ def owner_profile(request):
 def owner_change_password(request):
     profile = CustomUser.objects.get(email = request.user)
     if request.method == 'POST':
-        if profile.password == make_password(request.POST['current_password']):
-            profile.password = make_password(request.POST['password'])
-            profile.save()
+        if CustomUser.objects.filter(email = request.user, password = request.POST['current_password']).exists():
+            CustomUser.objects.filter(email = request.user, password = request.POST['current_password']).update(password = request.POST['password'])
+#         if profile.password == make_password(request.POST['current_password']):
+#             profile.password = make_password(request.POST['password'])
+#             profile.save()
             messages.success(request, 'Your Password has been updated.')
         else:
             messages.error(request, 'Your current password does not match with any.')
