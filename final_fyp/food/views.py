@@ -372,7 +372,7 @@ def owner_change_password(request):
     if request.method == 'POST':
         d = request.POST
         for k,v in d.items():
-            if k == 'password':
+            if k == 'passwordkey':
                 profile = CustomUser.objects.get(email=request.user)
                 current_password = request.POST['current_password']
                 new_password = request.POST['password']
