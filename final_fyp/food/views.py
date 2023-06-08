@@ -95,38 +95,6 @@ def home(request):
 #       return render(request, 'food-ordering/index.html', context)
 
 def search_menu(request, object_id):
-#     sort_option = request.GET.get('sort_option', None)
-
-#     default_sort_option = 'price'
-
-#     menus = MenuItems.objects.filter(is_seen=True) if request.user.role == 'customer' else MenuItems.objects.all()
-
-#     if sort_option == 'sortByOrders':
-#         menus = menus.annotate(num_orders=Count('orderitems')).order_by('-num_orders')
-#     elif sort_option == 'HighToLow':
-#         menus = menus.order_by('-price')
-#     elif sort_option == 'LowToHigh':
-#         menus = menus.order_by('price')
-#     else:
-#         menus = menus.order_by('price')
-#         sort_option = default_sort_option
-
-#     items_per_page = 2
-
-#     paginator = Paginator(menus, items_per_page)
-
-#     page_number = request.GET.get('page')
-
-#     page = paginator.get_page(page_number)
-#     menu_count = menus.count()
-
-#     start_index = (page.number - 1) * items_per_page
-#     end_index = start_index + len(page)
-
-
-#     menu_per_page = end_index - start_index
-
-#     context = {'page': page, 'sort_option': sort_option, 'menu_count': menu_count, 'menu_per_page':menu_per_page}
     context = {}
     if request.method == 'POST':
         search_item = request.POST.get('name')
