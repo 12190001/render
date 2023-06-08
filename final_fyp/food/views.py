@@ -367,12 +367,10 @@ def owner_profile(request):
 from django.contrib.auth.hashers import check_password
 
 def owner_change_password(request):
-    profile = CustomUser.objects.get(email=request.user)
-    
     if request.method == 'POST':
+        profile = CustomUser.objects.get(email=request.user)
         current_password = request.POST['current_password']
         new_password = request.POST['password']
-        
         if check_password(current_password, profile.password):
             profile.set_password(new_password)
             profile.save()
