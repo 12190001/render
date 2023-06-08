@@ -736,12 +736,15 @@ def profile(request, object_id):
 def change_password(request, object_id):
     profile = CustomUser.objects.get(email = request.user)
     if request.method == 'POST':
-        if profile.password == make_password(request.POST['current_password']):
-            profile.password = make_password(request.POST['password'])
+        profile = CustomUser.objects.get(email=request.user)
+        current_password = request.POST['current_password']
+        new_password = request.POST['password']
+        if check_password(current_password, profile.password):
+            profile.set_password(new_password)
             profile.save()
-            messages.success(request, 'Your profile has been updated.')
+            messages.success(request, 'Your password has been updated.')
         else:
-            messages.error(request, 'Your current password does not match with any.')
+            messages.error(request, 'Your current password is incorrect.')
 
     return render(request, 'food-ordering/change_password.html')
 
