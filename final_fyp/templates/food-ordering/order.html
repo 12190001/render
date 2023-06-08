@@ -169,10 +169,13 @@
                         <div class = "col">Item</div>
                         <div class = "col">Price</div>
                     </div> 
+                     {% for j in i %}
                     <div class="row">
-                        <div class = "col">{{i.item_name}}</div>
-                        <div class = "col">{{i.price}}</div>
+                       
+                        <div class = "col">{{j.item_name}}</div>
+                        <div class = "col">{{j.price}}</div>
                     </div> 
+                    {% endfor %}
                     
                 </div>
             </div>
