@@ -364,19 +364,38 @@ def owner_profile(request):
         messages.success(request, 'Your profile has been updated.')
     return render(request, 'owner_final/owner_profile.html')
 
-def owner_change_password(request):
-    profile = CustomUser.objects.get(email = request.user)
-    if request.method == 'POST':
-        if CustomUser.objects.filter(email = request.user, password = make_password(request.POST['current_password'])).exists():
-            CustomUser.objects.filter(email = request.user, password = request.POST['current_password']).update(password = request.POST['password'])
-#         if profile.password == make_password(request.POST['current_password']):
-#             profile.password = make_password(request.POST['password'])
-#             profile.save()
-            messages.success(request, 'Your Password has been updated.')
-        else:
-            messages.error(request, 'Your current password does not match with any.')
+from django.contrib.auth.hashers import check_password
 
-    return render(request, 'owner_final/change_password.html')
+def owner_change_password(request):
+    profile = CustomUser.objects.get(email=request.user)
+    
+    if request.method == 'POST':
+        current_password = request.POST['current_password']
+        new_password = request.POST['password']
+        
+        if check_password(current_password, profile.password):
+            profile.set_password(new_password)
+            profile.save()
+            messages.success(request, 'Your password has been updated.')
+        else:
+            messages.error(request, 'Your current password is incorrect.')
+    
+    return redirect('owner_profile')
+
+# def owner_change_password(request):
+#     profile = CustomUser.objects.get(email = request.user)
+#     if request.method == 'POST':
+#         if CustomUser.objects.filter(email = request.user, password = make_password(request.POST['current_password'])).exists():
+#             CustomUser.objects.filter(email = request.user, password = request.POST['current_password']).update(password = request.POST['password'])
+# #         if profile.password == make_password(request.POST['current_password']):
+# #             profile.password = make_password(request.POST['password'])
+# #             profile.save()
+#             messages.success(request, 'Your Password has been updated.')
+#         else:
+#             messages.error(request, 'Your current password does not match with any.')
+
+# #     return render(request, 'owner_final/change_password.html')
+#      return redirect('owner_profile')
 
 @login_required
 def dashboard(request,object_id):
@@ -657,7 +676,6 @@ def orders(request, object_id):
         'make_orders':zip(orders[::-1], all_order_items),
         'current_page': 'order',
         }
-    messages.success(request, all_order_items)
     return render(request,'food-ordering/order.html',context)
 
 def cancel_order(request, object_id, pk):
