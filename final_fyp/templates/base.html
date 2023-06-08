@@ -499,7 +499,20 @@
     <script src="{% static  'js/contact-form-script.js' %}"></script>
     <script src="{% static  'js/custom.js' %}"></script>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+      <script>
+          $(document).ready(function () {
+              $('#myTable').DataTable({
+                  // Enable filtering
+                  searching: true,
+                  // Enable sorting
+                  ordering: true,
+                  // Enable pagination
+                  paging: true
+              });
+          });
+      </script>
     <!-- Initialize Swiper -->
 
 {{ room_name|json_script:"room-name" }}
