@@ -367,8 +367,8 @@ def owner_profile(request):
 def owner_change_password(request):
     profile = CustomUser.objects.get(email = request.user)
     if request.method == 'POST':
-        if profile.password == request.POST['current_password']:
-            profile.password = request.POST['password']
+        if profile.password == make_password(request.POST['current_password']):
+            profile.password = make_password(request.POST['password'])
             profile.save()
             messages.success(request, 'Your Password has been updated.')
         else:
@@ -696,12 +696,13 @@ def profile(request, object_id):
     profile = CustomUser.objects.get(email = request.user)
     try:
         if request.method == 'POST':
-            profile.first_name = request.POST['first_name'] if request.POST['first_name'] != '' else profile.first_name
-            profile.last_name = request.POST['last_name'] if request.POST['last_name'] != '' else profile.last_name
-            profile.email = request.POST['email'] if request.POST['email'] != '' else profile.email
-            profile.contact_number = request.POST['contact'] if request.POST['contact'] != '' else profile.contact_number
-            profile.image = request.FILES['image'] if 'image' in request.FILES else profile.image
-            profile.save()
+            first_name = request.POST['first_name'] if request.POST['first_name'] != '' else profile.first_name
+            last_name = request.POST['last_name'] if request.POST['last_name'] != '' else profile.last_name
+            email = request.POST['email'] if request.POST['email'] != '' else profile.email
+            contact_number = request.POST['contact'] if request.POST['contact'] != '' else profile.contact_number
+            image = request.FILES['image'] if 'image' in request.FILES else profile.image
+            CustomUser.objects.filter(email = request.user).update(image = image, first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
+#             profile.save()
             messages.success(request, 'Your profile has been updated.')
     except Exception as e:
         messages.error(request, e)
@@ -711,8 +712,8 @@ def profile(request, object_id):
 def change_password(request, object_id):
     profile = CustomUser.objects.get(email = request.user)
     if request.method == 'POST':
-        if profile.password == request.POST['current_password']:
-            profile.password = request.POST['password']
+        if profile.password == make_password(request.POST['current_password']):
+            profile.password = make_password(request.POST['password'])
             profile.save()
             messages.success(request, 'Your profile has been updated.')
         else:
