@@ -351,11 +351,12 @@ def owner_change_password(request):
                 if check_password(current_password, profile.password):
                     profile.set_password(new_password)
                     profile.save()
-                    myuser = authenticate(request, username=email, password=profile.password)
+                    myuser = authenticate(request, username=email, password=new_password)
                     if myuser is not None:
                         login(request, myuser)
+                        messages.success(request, 'Your password has been updated.')
                         return redirect('owner')
-                    messages.success(request, 'Your password has been updated.')
+
                 else:
                     messages.error(request, 'Your current password is incorrect.')
     return redirect('owner_profile')
