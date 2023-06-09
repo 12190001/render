@@ -753,19 +753,19 @@ def feedback(request, object_id):
 
 @login_required
 def profile(request, object_id):
-    profile = CustomUser.objects.get(email = request.user)
-    try:
-        if request.method == 'POST':
-            first_name = request.POST['first_name'] if request.POST['first_name'] != '' else profile.first_name
-            last_name = request.POST['last_name'] if request.POST['last_name'] != '' else profile.last_name
-            email = request.POST['email'] if request.POST['email'] != '' else profile.email
-            contact_number = request.POST['contact'] if request.POST['contact'] != '' else profile.contact_number
-            image = request.FILES['image'] if 'image' in request.FILES else profile.image
-            CustomUser.objects.filter(email = request.user).update(image = f'profile/{image.name}', first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
-#             profile.save()
-            messages.success(request, 'Your profile has been updated.')
-    except Exception as e:
-        messages.error(request, e)
+   
+    if request.method == 'POST':
+        d = request.POST
+        for k,v in d.items():
+            if k == 'profile':
+                profile = CustomUser.objects.get(email = request.user)
+                image =  request.FILES['image'] if 'image' in request.FILES else profile.image
+                first_name = request.POST['first_name'] if request.POST['first_name'] != "" else profile.first_name
+                last_name = request.POST['last_name'] if request.POST['last_name'] != "" else profile.last_name
+                email = request.POST['email'] if request.POST['email'] != "" else profile.email
+                contact_number = request.POST['contact'] if request.POST['contact'] != "" else profile.contact_number
+                CustomUser.objects.filter(email = request.user).update(image = f'profile/{image.name}', first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
+                messages.success(request, 'Your profile has been updated.')
     return render(request, 'food-ordering/profile.html')
 
 @login_required
