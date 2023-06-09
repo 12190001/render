@@ -213,7 +213,7 @@
                 const status = data.status
                 console.log('hello')
                 console.log(status)
-                if (data.id = {{request.user}}){
+                if (data.id == {{request.user}}){
                   if(status == 'In_progress'){
                   console.log(status)
                   document.getElementById('status').innerHTML = `<p>Status: <span class="badge bg-warning" style="color: white">In progress</span></p>`
