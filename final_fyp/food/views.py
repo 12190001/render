@@ -353,7 +353,6 @@ def delete_manager(request):
 
 
 def owner_profile(request):
-
     if request.method == 'POST':
         d = request.POST
         for k, v in d.items():
@@ -775,9 +774,10 @@ def change_password(request, object_id):
             profile.set_password(new_password)
             profile.save()
             messages.success(request, 'Your password has been updated.')
+            return redirect(f'dashboard/{object_id}/change_password/')
         else:
             messages.error(request, 'Your current password is incorrect.')
-
+            return redirect(f'dashboard/{object_id}/change_password/')
     return render(request, 'food-ordering/change_password.html')
 
 def about(request, object_id):
