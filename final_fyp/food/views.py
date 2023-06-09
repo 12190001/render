@@ -507,6 +507,7 @@ def approval(request, object_id):
                 "status": 'In_progress',
                 "id":basket.customer_id.email
                 })
+
             if k == 'ready':
                 basket = Basket.objects.get(id = v )
                 basket.status = 'Ready'
@@ -523,8 +524,10 @@ def approval(request, object_id):
                 async_to_sync(channel_layer.group_send)("notification", {
                 "type": "notify_customer",
                 "customer": f"food request:{message}",
-                "status": 'Ready'
+                "status": 'Ready',
+                "id":basket.customer_id.email
                 })
+
             if k == 'decline':
                 basket = Basket.objects.get(id = v )
                 basket.status = 'Declined'
@@ -540,7 +543,8 @@ def approval(request, object_id):
                 async_to_sync(channel_layer.group_send)("notification", {
                 "type": "notify_customer",
                 "customer": f"food request:{message}",
-                "status": 'Declined'
+                "status": 'Declined',
+                "id":basket.customer_id.email
                 })
             if k == 'cash':
                 basket = Basket.objects.get(id = v )

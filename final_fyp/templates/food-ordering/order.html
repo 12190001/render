@@ -110,7 +110,7 @@
                   <span class="order-label">Total:</span>
                   <span class="order-value">Nu.{{order.bill}}</span>
                 </div>
-                <div id="status">
+                <div id="status-{{request.user}}">
                   <div class="order-status">
                     {% if order.status == 'Waiting' or order.status == 'In_progress'  %}
                   <p>
@@ -143,7 +143,7 @@
                   {% endif %}
                   </div>
                 </div>
-                <div id="action" class="order-actions">
+                <div id="action-{{request.user}}" class="order-actions">
                   {% if order.status == 'Waiting' %}
                     <form action="{% url 'cancel_order' user.pk order.pk %}">
                       {% csrf_token %}
@@ -211,28 +211,24 @@
               if (data.type === "notification") {
                   // Handle the notification
                 const status = data.status
+                const id = data.id
                 console.log('hello')
                 console.log(status)
-                if (data.id == {{request.user}}){
-                  if(status == 'In_progress'){
+
+                if(status == 'In_progress'){
                   console.log(status)
-                  document.getElementById('status').innerHTML = `<p>Status: <span class="badge bg-warning" style="color: white">In progress</span></p>`
-                  document.getElementById('action').innerHTML = `<p></p>`
+                  document.getElementById('status-'+id).innerHTML = `<p>Status: <span class="badge bg-warning" style="color: white">In progress</span></p>`
+                  document.getElementById('action-'+id).innerHTML = `<p></p>`
 
                 }
                 else if(status == 'Ready'){
-                  document.getElementById('status').innerHTML = `<p>Status: <span class="badge" style="color: white; background-color: #ff7a00;">Ready</span></p>`
+                  document.getElementById('status-'+id).innerHTML = `<p>Status: <span class="badge" style="color: white; background-color: #ff7a00;">Ready</span></p>`
 
                 }
                 else{
-                  document.getElementById('status').innerHTML = `<p>Status: <span class="badge bg-danger" style="color: white">Declined</span></p>`
+                  document.getElementById('status-'+id).innerHTML = `<p>Status: <span class="badge bg-danger" style="color: white">Declined</span></p>`
 
                 }
-
-
-
-                }
-
 
               }
           };

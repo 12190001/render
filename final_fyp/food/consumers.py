@@ -25,4 +25,5 @@ class NotificationConsumer(AsyncWebsocketConsumer):
             "customer": event["customer"],
             "status":event["status"],
             "id":event["id"]
+
         }))
