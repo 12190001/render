@@ -181,7 +181,7 @@
                 <li class='{% if current_page == "menu" %} nav-item active {% else %} nav-item {% endif %}'>
                   <a class="nav-link" href="{% url 'menu' user.pk %}">Menus</a>
                 </li>
-                <li class='{% if current_page == "order" %} nav-item active {% else %} nav-item {% endif %}'>
+                <li class='{% if current_page == "manage_order" %} nav-item active {% else %} nav-item {% endif %}'>
                   <a class="nav-link" href="{% url 'manage_order' user.pk%}">Orders</a>
                 </li>
               </ul>
