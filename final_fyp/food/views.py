@@ -323,7 +323,7 @@ def owner_add_manager(request):
 
                                 # email_from = settings.EMAIL_HOST_USER
 
-                        message2 = f"You have been registered to the system with email:{email} and password: {password}."
+                        message2 = f"You have been registered as a manager for Gofoodie system with email:{email} and password: {password}."
                                 # First send OTP through email before saving data to Database
 
                         send_mail(
