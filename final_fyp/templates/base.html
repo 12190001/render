@@ -51,7 +51,7 @@
             <div class="our-link">
               <ul>
                 <li>
-                  <a href="contact-us.html"
+                  <a href="https://wa.me/17360450"
                     ><i class="fas fa-headset"></i> Contact Us</a
                   >
                 </li>
@@ -151,17 +151,17 @@
                 data-in="fadeInDown"
                 data-out="fadeOutUp"
               >
-                <li class="nav-item">
+                <li class='{% if current_page == "dashboard" %} nav-item active {% else %} nav-item {% endif %}'>
                   <a class="nav-link" href="{% url 'dashboard' user.pk %}">Home</a>
                 </li>
 
-                <li class="nav-item">
+                <li class='{% if current_page == "menu" %} nav-item active {% else %} nav-item {% endif %}'>
                   <a class="nav-link" href="{% url 'menu' user.pk %}">Menus</a>
                 </li>
-                <li class="nav-item">
+                <li class='{% if current_page == "order" %} nav-item active {% else %} nav-item {% endif %}'>
                   <a class="nav-link" href="{% url 'orders' user.pk%}">Orders</a>
                 </li>
-                <li class="nav-item">
+                <li class='{% if current_page == "about" %} nav-item active {% else %} nav-item {% endif %}'>
                   <a class="nav-link" href="{% url 'about' user.pk %}">About Us</a>
                 </li>
               </ul>
@@ -174,14 +174,14 @@
                 data-in="fadeInDown"
                 data-out="fadeOutUp"
               >
-                <li class="nav-item">
+                <li class='{% if current_page == "dashboard" %} nav-item active {% else %} nav-item {% endif %}'>
                   <a class="nav-link" href="{% url 'dashboard' user.pk %}">Home</a>
                 </li>
 
-                <li class="nav-item">
+                <li class='{% if current_page == "menu" %} nav-item active {% else %} nav-item {% endif %}'>
                   <a class="nav-link" href="{% url 'menu' user.pk %}">Menus</a>
                 </li>
-                <li class="nav-item">
+                <li class='{% if current_page == "order" %} nav-item active {% else %} nav-item {% endif %}'>
                   <a class="nav-link" href="{% url 'manage_order' user.pk%}">Orders</a>
                 </li>
               </ul>
@@ -265,11 +265,11 @@
             <ul id="notification" class="cart-list">
             </ul>
             <ul id="" class="cart-list">
-              {% for i in cust_notifications %} 
+              {% for i in cust_notifications %}
               <li>{{i.notification}}<br>{{i.broadcast_on}}</li>
               {% endfor %}
             </ul>
-            
+
 
           </li>
         </div>
@@ -280,7 +280,7 @@
             <ul class="cart-list" id="notify_manager">
             </ul>
              <ul id="" class="cart-list">
-              {% for i in notifications %} 
+              {% for i in notifications %}
               <li>{{i.notification}}<br>{{i.broadcast_on}}</li>
               {% endfor %}
             </ul>

@@ -142,7 +142,7 @@
     <aside id="sidebar" class="sidebar">
       <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'owner' %}">
+          <a {% if current_page == "owner_dashboard" %} class="nav-link" {% else %} class="nav-link collapsed" {% endif %} href="{% url 'owner' %}">
             <i class="bi bi-grid"></i>
             <span>Dashboard</span>
           </a>
@@ -150,7 +150,7 @@
         <!-- End Dashboard Nav -->
 
         <li class="nav-item">
-          <a class="nav-link collapsed" href="{% url 'owner_profile' %}">
+          <a {% if current_page == "owner_profile" %} class="nav-link" {% else %} class="nav-link collapsed" {% endif %} href="{% url 'owner_profile' %}">
             <i class="bi bi-person"></i>
             <span>Profile</span>
           </a>
@@ -159,7 +159,7 @@
         <!-- End Profile Page Nav -->
 
         <li class="nav-item">
-          <a class="nav-link collapsed" href="{% url 'addmanager' %}">
+          <a {% if current_page == "owner_add_manager" %} class="nav-link" {% else %} class="nav-link collapsed" {% endif %} href="{% url 'addmanager' %}">
             <i>+</i>
             <span>Add manager</span>
           </a>

@@ -272,7 +272,8 @@ def owner_dashboard(request):
         'baskets':Basket.objects.all(),
         'months':month_list,
         'orders_in_month':orders_in_month,
-        'payment_report':payment_report
+        'payment_report':payment_report,
+        'current_page': 'owner_dashboard'
     }
 
     return render(request, 'owner_final/owner_dashboard.html', context)
@@ -340,7 +341,7 @@ def owner_add_manager(request):
                     messages.success(request, "Manager successfully Added.")
                     return redirect('addmanager')
     context = {
-        'data':data
+        'data':data, 'current_page': 'owner_add_manager'
     }
     return render(request, 'owner_final/add_manager.html', context)
 
@@ -366,7 +367,7 @@ def owner_profile(request):
                 profile.save(update_fields=['image', 'first_name', 'last_name', 'email', 'contact_number'])
                 messages.success(request, 'Your profile has been updated.')
                 return redirect('owner_profile')
-    return render(request, 'owner_final/owner_profile.html')
+    return render(request, 'owner_final/owner_profile.html', {'current_page': 'owner_profile'})
 
 
 from django.contrib.auth.hashers import check_password

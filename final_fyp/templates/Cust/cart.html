@@ -110,32 +110,36 @@
 {% endblock %}
 
 {% block script %}
+
 <script>
-    // Get all the plus and minus buttons
-function adjustQuantity(menu_id, price, type) {
-   var input = document.getElementById(menu_id);
-   var currentValue = parseInt(input.value);
-   var total = parseInt(document.getElementById('total').value);
+  // Get all the plus and minus buttons
+  function adjustQuantity(menu_id, price, type) {
+    var input = document.getElementById(menu_id);
+    var currentValue = parseInt(input.value);
+    var total = parseInt(document.getElementById('total').value);
 
-   if (type === 'plus') {
-     var newValue = currentValue + 1;
-     var newPrice = parseInt(price) * newValue
-     document.getElementById('amount'+menu_id).innerHTML = newPrice;
-     total += parseInt(price);
-
-   } else {
-     var newValue = currentValue - 1;
-     var amount = parseInt(document.getElementById('amount'+menu_id).innerHTML)
-     document.getElementById('amount'+menu_id).innerHTML = amount - price ;
-     total -= price;
-   }
-   if (newValue >= 0) {
-     input.value = newValue;
-   }
-   document.getElementById('total').value = total
- }
-
-  </script>
-
+    if (type === 'plus') {
+      var newValue = currentValue + 1;
+      var newPrice = parseInt(price) * newValue;
+      document.getElementById('amount' + menu_id).innerHTML = newPrice;
+      total += parseInt(price);
+    } else {
+      var newValue = currentValue - 1;
+      if (newValue < 1) {
+        // Check if the new value is less than 1
+        return; // If less than 1, do not proceed further
+      }
+      var amount = parseInt(
+        document.getElementById('amount' + menu_id).innerHTML
+      );
+      document.getElementById('amount' + menu_id).innerHTML = amount - price;
+      total -= price;
+    }
+    if (newValue >= 0) {
+      input.value = newValue;
+    }
+    document.getElementById('total').value = total;
+  }
+</script>
 
 {% endblock %}
