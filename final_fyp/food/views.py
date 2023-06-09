@@ -774,10 +774,10 @@ def change_password(request, object_id):
             profile.set_password(new_password)
             profile.save()
             messages.success(request, 'Your password has been updated.')
-            return redirect(f'/dashboard/{object_id}/change_password/')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             messages.error(request, 'Your current password is incorrect.')
-            return redirect(f'/dashboard/{object_id}/change_password/')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     return render(request, 'food-ordering/change_password.html')
 
 def about(request, object_id):
