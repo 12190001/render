@@ -363,7 +363,7 @@ def owner_profile(request):
                 email = request.POST['email'] if request.POST['email'] != "" else profile.email
                 contact_number = request.POST['contact'] if request.POST['contact'] != "" else profile.contact_number
                 
-                fs = FileSystemStorage(location=settings.MEDIA_ROOT)
+                fs = FileSystemStorage(location='profile')
                 filename = fs.save(image.name, image)
                 
 #                 profile.save()
