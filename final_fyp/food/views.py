@@ -504,7 +504,8 @@ def approval(request, object_id):
                 async_to_sync(channel_layer.group_send)("notification", {
                 "type": "notify_customer",
                 "customer": f"food request:{message}",
-                "status": 'In_progress'
+                "status": 'In_progress',
+                "id":basket.customer_id.email
                 })
             if k == 'ready':
                 basket = Basket.objects.get(id = v )
