@@ -350,7 +350,7 @@ def delete_manager(request):
     messages.success(request, "Manager successfully deleted.")
     return redirect('addmanager')
 
-# def owner_profile(request):
+def owner_profile(request):
 #     if request.method == 'POST':
 #         d = request.POST
 #         for k,v in d.items():
@@ -365,57 +365,68 @@ def delete_manager(request):
 # #                 CustomUser.objects.filter(email = request.user).update(image = image, first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
 #                 messages.success(request, 'Your profile has been updated.')
 #                 return redirect('owner_profile')
-#     return render(request, 'owner_final/owner_profile.html')
-
-from django.contrib.auth.hashers import check_password
-
-# def owner_change_password(request):
-#     if request.method == 'POST':
-#         d = request.POST
-#         for k,v in d.items():
-#             if k == 'passwordkey':
-#                 profile = CustomUser.objects.get(email=request.user)
-#                 current_password = request.POST['current_password']
-#                 new_password = request.POST['password']
-#                 if check_password(current_password, profile.password):
-#                     profile.set_password(new_password)
-#                     profile.save()
-#                     messages.success(request, 'Your password has been updated.')
-#                 else:
-#                     messages.error(request, 'Your current password is incorrect.')
-    
-#     return redirect('owner_profile')
-
-def owner_profile(request):
     if request.method == 'POST':
         if 'profile' in request.POST:
             profile = CustomUser.objects.get(email=request.user)
-            profile.image = request.FILES.get('image', profile.image)
-            profile.first_name = request.POST.get('first_name', profile.first_name)
-            profile.last_name = request.POST.get('last_name', profile.last_name)
-            profile.email = request.POST.get('email', profile.email)
-            profile.contact_number = request.POST.get('contact', profile.contact_number)
+            profile.image = request.FILES['image'] if 'image' in request.FILES else profile.image
+            profile.first_name = request.POST['first_name'] if request.POST['first_name'] != "" else profile.first_name
+            profile.last_name = request.POST['last_name'] if request.POST['last_name'] != "" else profile.last_name
+            profile.email = request.POST['email'] if request.POST['email'] != "" else profile.email
+            profile.contact_number = request.POST['contact'] if request.POST['contact'] != "" else profile.contact_number
             profile.save()
             messages.success(request, 'Your profile has been updated.')
             return redirect('owner_profile')
-    
     return render(request, 'owner_final/owner_profile.html')
 
 
+
+from django.contrib.auth.hashers import check_password
+
 def owner_change_password(request):
     if request.method == 'POST':
-        if 'passwordkey' in request.POST:
-            profile = CustomUser.objects.get(email=request.user)
-            current_password = request.POST.get('current_password')
-            new_password = request.POST.get('password')
-            if check_password(current_password, profile.password):
-                profile.set_password(new_password)
-                profile.save()
-                messages.success(request, 'Your password has been updated.')
-            else:
-                messages.error(request, 'Your current password is incorrect.')
-    
+        d = request.POST
+        for k,v in d.items():
+            if k == 'passwordkey':
+                profile = CustomUser.objects.get(email=request.user)
+                current_password = request.POST['current_password']
+                new_password = request.POST['password']
+                if check_password(current_password, profile.password):
+                    profile.set_password(new_password)
+                    profile.save()
+                    messages.success(request, 'Your password has been updated.')
+                else:
+                    messages.error(request, 'Your current password is incorrect.')
     return redirect('owner_profile')
+
+# def owner_profile(request):
+#     if request.method == 'POST':
+#         if 'profile' in request.POST:
+#             profile = CustomUser.objects.get(email=request.user)
+#             profile.image = request.FILES.get('image', profile.image)
+#             profile.first_name = request.POST.get('first_name', profile.first_name)
+#             profile.last_name = request.POST.get('last_name', profile.last_name)
+#             profile.email = request.POST.get('email', profile.email)
+#             profile.contact_number = request.POST.get('contact', profile.contact_number)
+#             profile.save()
+#             messages.success(request, 'Your profile has been updated.')
+#             return redirect('owner_profile')
+#     return render(request, 'owner_final/owner_profile.html')
+
+
+# def owner_change_password(request):
+#     if request.method == 'POST':
+#         if 'passwordkey' in request.POST:
+#             profile = CustomUser.objects.get(email=request.user)
+#             current_password = request.POST.get('current_password')
+#             new_password = request.POST.get('password')
+#             if check_password(current_password, profile.password):
+#                 profile.set_password(new_password)
+#                 profile.save()
+#                 messages.success(request, 'Your password has been updated.')
+#             else:
+#                 messages.error(request, 'Your current password is incorrect.')
+    
+#     return redirect('owner_profile')
 
 
 # def owner_change_password(request):
