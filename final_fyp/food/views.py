@@ -765,7 +765,6 @@ def profile(request, object_id):
 
 @login_required
 def change_password(request, object_id):
-    from django.contrib.auth import update_session_auth_hash
     profile = CustomUser.objects.get(email = request.user)
     if request.method == 'POST':
         profile = CustomUser.objects.get(email=request.user)
@@ -774,7 +773,6 @@ def change_password(request, object_id):
         if check_password(current_password, profile.password):
             profile.set_password(new_password)
             profile.save(update_fields=['password'])
-
             messages.success(request, 'Your password has been updated.')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
