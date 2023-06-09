@@ -348,8 +348,9 @@ def owner_change_password(request):
                 current_password = request.POST['current_password']
                 new_password = request.POST['password']
                 if check_password(current_password, profile.password):
-                    profile.set_password(new_password)
-                    profile.save()
+                    CustomUser.objects.filter(email=request.user).update(password = new_password)
+                    # profile.set_password(new_password)
+                    # profile.save()
                     messages.success(request, 'Your password has been updated.')
                 else:
                     messages.error(request, 'Your current password is incorrect.')
