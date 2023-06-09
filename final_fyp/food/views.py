@@ -374,7 +374,7 @@ def owner_profile(request):
             email = request.POST['email'] if request.POST['email'] != "" else profile.email
             contact_number = request.POST['contact'] if request.POST['contact'] != "" else profile.contact_number
 #             profile.save()
-            CustomUser.objects.filter(email = request.user.email).update(image = image, first_name=first_name,last_name=last_name,email=email,contact_number)
+            CustomUser.objects.filter(email = request.user).update(image = image, first_name=first_name,last_name=last_name,email=email,contact_number)
             messages.success(request, 'Your profile has been updated.')
             return redirect('owner_profile')
     return render(request, 'owner_final/owner_profile.html')
