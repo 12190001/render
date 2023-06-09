@@ -773,9 +773,9 @@ def change_password(request, object_id):
         new_password = request.POST['password']
         if check_password(current_password, profile.password):
             profile.set_password(new_password)
-            profile.save()
+            profile.save(update_fields=['password'])
+
             messages.success(request, 'Your password has been updated.')
-            update_session_auth_hash(request, request.user)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             messages.error(request, 'Your current password is incorrect.')
