@@ -65,6 +65,19 @@
 {% endblock %}
 
 {% block content %}
+<div class="all-title-box">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2>ORDERS</h2>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">MY ORDERS</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="latest-blog">
     <div class="container">
       <div class="row">
@@ -168,15 +181,15 @@
                     <div class="row">
                         <div class = "col">Item</div>
                         <div class = "col">Price</div>
-                    </div> 
+                    </div>
                      {% for j in i %}
                     <div class="row">
-                       
+
                         <div class = "col">{{j.item_name}}</div>
                         <div class = "col">{{j.price}}</div>
-                    </div> 
+                    </div>
                     {% endfor %}
-                    
+
                 </div>
             </div>
             </div>
