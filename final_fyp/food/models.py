@@ -37,7 +37,7 @@ class UserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     """User in the system"""
-    image = models.ImageField(upload_to='profile')
+    image = models.ImageField(upload_to='profile/')
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
