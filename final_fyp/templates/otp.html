@@ -67,12 +67,8 @@
 			alertify.set('notifier','position', 'top-center');
 			"{% if flashmsg.tags == 'success' %}"
 				alertify.success('{{ flashmsg }}');
-			"{% elif flashmsg.tags == 'warning' %}"
-				alertify.warning('{{ flashmsg }}');
-			"{% elif flashmsg.tags == 'error' %}"
-				alertify.error('{{ flashmsg }}');
 			" {% else %}"
-				alertify.message('{{ flashmsg }}');
+				alertify.error('{{ flashmsg }}');
 			"{% endif %}"
 		"{% endfor %}"
 	</script>

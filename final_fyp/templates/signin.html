@@ -76,7 +76,7 @@
 			"{% if flashmsg.tags == 'success' %}"
 				alertify.success('{{ flashmsg }}');
 			" {% else %}"
-				alertify.error();('{{ flashmsg }}');
+				alertify.error('{{ flashmsg }}');
 			"{% endif %}"
 		"{% endfor %}"
 	</script>
