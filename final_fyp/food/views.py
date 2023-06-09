@@ -367,7 +367,7 @@ def owner_profile(request):
 #                 return redirect('owner_profile')
     if request.method == 'POST':
         if 'profile' in request.POST:
-            profile = CustomUser.objects.get(email=request.user)
+            profile = CustomUser.objects.get(email=request.user.email)
             profile.image = request.FILES['image'] if 'image' in request.FILES else profile.image
             profile.first_name = request.POST['first_name'] if request.POST['first_name'] != "" else profile.first_name
             profile.last_name = request.POST['last_name'] if request.POST['last_name'] != "" else profile.last_name
