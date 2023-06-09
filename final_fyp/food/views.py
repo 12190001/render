@@ -33,7 +33,7 @@ def home(request):
 
     context = {}
     top_ordered_food = OrderItems.objects.values('menu_id__item_name', 'menu_id__image', 'menu_id__description', 'menu_id__price').annotate(total_ordered=Sum('quantity')).order_by('-total_ordered')[:3]
-    
+
     import os
     from django.conf import settings
 
@@ -68,7 +68,7 @@ def home(request):
 #       if request.user.is_authenticated:
 #         if request.user.role != 'owner':
 #             return redirect(f'/dashboard/{request.user.id}/')
-  
+
 #       top_ordered_food = OrderItems.objects.values('menu_id_item_name', 'menu_idimage', 'menu_iddescription', 'menu_id_price').annotate(total_ordered=Sum('quantity')).order_by('-total_ordered')[:3]
 #       # assume that the string is "/media/my_image.png"
 #       for i in top_ordered_food:
@@ -319,7 +319,7 @@ def owner_add_manager(request):
                     try:
                         current_site = get_current_site(request)
                         subject = 'Food ordering system'
-                        
+
                                 # email_from = settings.EMAIL_HOST_USER
 
                         message2 = f"You have been registered to the system with email:{email} and password: {password}."
@@ -333,7 +333,7 @@ def owner_add_manager(request):
                                     fail_silently = True
 
                         )
-                        
+
                     except Exception as e:
                             messages.error(request,
                                 "Failed to send message through Email."+str(e))
@@ -350,7 +350,7 @@ def delete_manager(request):
     messages.success(request, "Manager successfully deleted.")
     return redirect('addmanager')
 
-        
+
 def owner_profile(request):
     if request.method == 'POST':
         d = request.POST
@@ -367,11 +367,11 @@ def owner_profile(request):
 
 
 #                 profile.save()
-                CustomUser.objects.filter(email = request.user).update(image = f'profile/{image.name}', first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
+                CustomUser.objects.filter(email = request.user).update(image = image, first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
                 messages.success(request, 'Your profile has been updated.')
                 return redirect('owner_profile')
     return render(request, 'owner_final/owner_profile.html')
-    
+
 from django.contrib.auth.hashers import check_password
 
 def owner_change_password(request):
@@ -417,7 +417,7 @@ def owner_change_password(request):
 #                 messages.success(request, 'Your password has been updated.')
 #             else:
 #                 messages.error(request, 'Your current password is incorrect.')
-    
+
 #     return redirect('owner_profile')
 
 
@@ -706,7 +706,7 @@ def delete_order(request, object_id, pk):
 def orders(request, object_id):
     customer = CustomUser.objects.get(email = request.user)
     orders = Basket.objects.filter(customer_id = customer)
-    
+
     all_order_items = []
     for order in orders:
         item = OrderItems.objects.filter(basket_id = order)
@@ -753,19 +753,17 @@ def feedback(request, object_id):
 
 @login_required
 def profile(request, object_id):
-   
     if request.method == 'POST':
-       
-                profile = CustomUser.objects.get(email = request.user)
-                image =  request.FILES['image'] if 'image' in request.FILES else profile.image
-                first_name = request.POST['first_name'] if request.POST['first_name'] != "" else profile.first_name
-                last_name = request.POST['last_name'] if request.POST['last_name'] != "" else profile.last_name
-                email = request.POST['email'] if request.POST['email'] != "" else profile.email
-                contact_number = request.POST['contact'] if request.POST['contact'] != "" else profile.contact_number
-                CustomUser.objects.filter(email = request.user).update(first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
-                profile.image = image
-                profile.save()
-                messages.success(request, 'Your profile has been updated.')
+        profile = CustomUser.objects.get(email = request.user)
+        image =  request.FILES['image'] if 'image' in request.FILES else profile.image
+        first_name = request.POST['first_name'] if request.POST['first_name'] != "" else profile.first_name
+        last_name = request.POST['last_name'] if request.POST['last_name'] != "" else profile.last_name
+        email = request.POST['email'] if request.POST['email'] != "" else profile.email
+        contact_number = request.POST['contact'] if request.POST['contact'] != "" else profile.contact_number
+        CustomUser.objects.filter(email = request.user).update(first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
+        profile.image = image
+        profile.save()
+        messages.success(request, 'Your profile has been updated.')
     return render(request, 'food-ordering/profile.html')
 
 @login_required
