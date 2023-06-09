@@ -364,7 +364,7 @@ def owner_profile(request):
                 contact_number = request.POST['contact'] if request.POST['contact'] != "" else profile.contact_number
 #                 fs = FileSystemStorage(location=settings.MEDIA_ROOT)
 #                 filename = fs.save(os.path.join('profile', image.name), image)
-profile.image = 'https://gofoodie-1a86.onrender.com/media/profile/' + image.name
+
 
 #                 profile.save()
                 CustomUser.objects.filter(email = request.user).update(image = f'https://gofoodie-1a86.onrender.com/media/profile/{image.name}', first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
