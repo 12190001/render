@@ -755,9 +755,7 @@ def feedback(request, object_id):
 def profile(request, object_id):
    
     if request.method == 'POST':
-        d = request.POST
-        for k,v in d.items():
-            if k == 'profile':
+       
                 profile = CustomUser.objects.get(email = request.user)
                 image =  request.FILES['image'] if 'image' in request.FILES else profile.image
                 first_name = request.POST['first_name'] if request.POST['first_name'] != "" else profile.first_name
