@@ -347,7 +347,7 @@ def owner_change_password(request):
                 profile = CustomUser.objects.get(email=request.user)
                 current_password = request.POST['current_password']
                 new_password = request.POST['password']
-                email = request.user
+                email = request.user.email
                 if check_password(current_password, profile.password):
                     profile.set_password(new_password)
                     profile.save()
