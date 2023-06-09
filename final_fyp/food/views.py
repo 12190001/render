@@ -62,38 +62,6 @@ def home(request):
     return render(request, 'food-ordering/index.html', context)
 
 
-
-# def home(request):
-#       context = {}
-#       if request.user.is_authenticated:
-#         if request.user.role != 'owner':
-#             return redirect(f'/dashboard/{request.user.id}/')
-
-#       top_ordered_food = OrderItems.objects.values('menu_id_item_name', 'menu_idimage', 'menu_iddescription', 'menu_id_price').annotate(total_ordered=Sum('quantity')).order_by('-total_ordered')[:3]
-#       # assume that the string is "/media/my_image.png"
-#       for i in top_ordered_food:
-#           print(i['menu_id__image'])
-#           image_url = os.path.join(settings.MEDIA_URL, i['menu_id__image'])
-#           print(image_url)
-#           i['menu_id__image'] = image_url
-#           menu_item = MenuItems.objects.get(item_name=i['menu_id__item_name'])
-#           menu_item.is_top_ordered = True
-#           menu_item.save()
-
-#           new_items = MenuItems.objects.order_by('-creation_date')[:2]
-
-#           for item in new_items:
-#               item.is_new_item = True
-#               item.save()
-#           MenuItems.objects.exclude(pk__in=[item.pk for item in new_items]).update(is_new_item=False)
-#           context = {
-#               'newitems': new_items,
-#               'menu': MenuItems.objects.all(),
-#               'top_ordered_food':top_ordered_food,
-#               'current_page': 'home'
-#           }
-#       return render(request, 'food-ordering/index.html', context)
-
 def search_menu(request, object_id):
     context = {}
     if request.method == 'POST':
@@ -387,51 +355,6 @@ def owner_change_password(request):
                     messages.error(request, 'Your current password is incorrect.')
     return redirect('owner_profile')
 
-# def owner_profile(request):
-#     if request.method == 'POST':
-#         if 'profile' in request.POST:
-#             profile = CustomUser.objects.get(email=request.user)
-#             profile.image = request.FILES.get('image', profile.image)
-#             profile.first_name = request.POST.get('first_name', profile.first_name)
-#             profile.last_name = request.POST.get('last_name', profile.last_name)
-#             profile.email = request.POST.get('email', profile.email)
-#             profile.contact_number = request.POST.get('contact', profile.contact_number)
-#             profile.save()
-#             messages.success(request, 'Your profile has been updated.')
-#             return redirect('owner_profile')
-#     return render(request, 'owner_final/owner_profile.html')
-
-
-# def owner_change_password(request):
-#     if request.method == 'POST':
-#         if 'passwordkey' in request.POST:
-#             profile = CustomUser.objects.get(email=request.user)
-#             current_password = request.POST.get('current_password')
-#             new_password = request.POST.get('password')
-#             if check_password(current_password, profile.password):
-#                 profile.set_password(new_password)
-#                 profile.save()
-#                 messages.success(request, 'Your password has been updated.')
-#             else:
-#                 messages.error(request, 'Your current password is incorrect.')
-
-#     return redirect('owner_profile')
-
-
-# def owner_change_password(request):
-#     profile = CustomUser.objects.get(email = request.user)
-#     if request.method == 'POST':
-#         if CustomUser.objects.filter(email = request.user, password = make_password(request.POST['current_password'])).exists():
-#             CustomUser.objects.filter(email = request.user, password = request.POST['current_password']).update(password = request.POST['password'])
-# #         if profile.password == make_password(request.POST['current_password']):
-# #             profile.password = make_password(request.POST['password'])
-# #             profile.save()
-#             messages.success(request, 'Your Password has been updated.')
-#         else:
-#             messages.error(request, 'Your current password does not match with any.')
-
-# #     return render(request, 'owner_final/change_password.html')
-#      return redirect('owner_profile')
 
 @login_required
 def dashboard(request,object_id):
