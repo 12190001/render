@@ -352,20 +352,22 @@ def delete_manager(request):
 
 
 def owner_profile(request):
+
     if request.method == 'POST':
         d = request.POST
-        for k,v in d.items():
+        for k, v in d.items():
             if k == 'profile':
-                profile = CustomUser.objects.get(email = request.user)
-                image =  request.FILES['image'] if 'image' in request.FILES else profile.image
-                first_name = request.POST['first_name'] if request.POST['first_name'] != "" else profile.first_name
-                last_name = request.POST['last_name'] if request.POST['last_name'] != "" else profile.last_name
-                email = request.POST['email'] if request.POST['email'] != "" else profile.email
-                contact_number = request.POST['contact'] if request.POST['contact'] != "" else profile.contact_number
-                CustomUser.objects.filter(email = request.user).update(image = f'profile/{image.name}',first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
+                profile = CustomUser.objects.get(email=request.user)
+                profile.image = request.FILES['image'] if 'image' in request.FILES else profile.image
+                profile.first_name = request.POST['first_name'] if request.POST['first_name'] != "" else profile.first_name
+                profile.last_name = request.POST['last_name'] if request.POST['last_name'] != "" else profile.last_name
+                profile.email = request.POST['email'] if request.POST['email'] != "" else profile.email
+                profile.contact_number = request.POST['contact'] if request.POST['contact'] != "" else profile.contact_number
+                profile.save(update_fields=['image', 'first_name', 'last_name', 'email', 'contact_number'])
                 messages.success(request, 'Your profile has been updated.')
                 return redirect('owner_profile')
     return render(request, 'owner_final/owner_profile.html')
+
 
 from django.contrib.auth.hashers import check_password
 
