@@ -761,7 +761,7 @@ def profile(request, object_id):
             email = request.POST['email'] if request.POST['email'] != '' else profile.email
             contact_number = request.POST['contact'] if request.POST['contact'] != '' else profile.contact_number
             image = request.FILES['image'] if 'image' in request.FILES else profile.image
-            CustomUser.objects.filter(email = request.user).update(image = image, first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
+            CustomUser.objects.filter(email = request.user).update(image = f'profile/{image.name}', first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
 #             profile.save()
             messages.success(request, 'Your profile has been updated.')
     except Exception as e:
