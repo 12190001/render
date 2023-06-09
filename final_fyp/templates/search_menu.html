@@ -144,9 +144,10 @@
                            {{i.description}}
                           </p>
                           {% if user.role == 'customer' %}
-                          <div class="mask-icon">
+                          <a class="btn hvr-hover" href="{% url 'order' user.pk i.pk %}">Add to Cart</a>
+                          <!-- <div class="mask-icon">
                             <a class="cart" href="{% url 'order' user.pk i.pk %}">Add to Cart</a>
-                          </div>
+                          </div> -->
                           {% endif %}
                         </div>
                       </div>
