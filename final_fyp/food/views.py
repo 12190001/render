@@ -367,7 +367,7 @@ def owner_profile(request):
 
 
 #                 profile.save()
-                CustomUser.objects.filter(email = request.user).update(image = f'https://gofoodie-1a86.onrender.com/media/profile/{image.name}', first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
+                CustomUser.objects.filter(email = request.user).update(image = f'profile/{image.name}', first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
                 messages.success(request, 'Your profile has been updated.')
                 return redirect('owner_profile')
     return render(request, 'owner_final/owner_profile.html')
