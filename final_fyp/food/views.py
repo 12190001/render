@@ -762,7 +762,9 @@ def profile(request, object_id):
                 last_name = request.POST['last_name'] if request.POST['last_name'] != "" else profile.last_name
                 email = request.POST['email'] if request.POST['email'] != "" else profile.email
                 contact_number = request.POST['contact'] if request.POST['contact'] != "" else profile.contact_number
-                CustomUser.objects.filter(email = request.user).update(image = f'profile/{image.name}', first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
+                CustomUser.objects.filter(email = request.user).update(first_name=first_name,last_name=last_name,email=email,contact_number=contact_number)
+                profile.image = image
+                profile.save()
                 messages.success(request, 'Your profile has been updated.')
     return render(request, 'food-ordering/profile.html')
 
