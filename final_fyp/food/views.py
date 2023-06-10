@@ -639,7 +639,7 @@ def orders(request, object_id):
         item = OrderItems.objects.filter(basket_id = order)
         all_order_items.append(item)
     context = {
-        'make_orders':zip(orders[::-1], all_order_items),
+        'make_orders':zip(orders[::-1], all_order_items[::-1]),
         'current_page': 'order',
         }
     return render(request,'food-ordering/order.html',context)
