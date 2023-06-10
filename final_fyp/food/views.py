@@ -236,7 +236,7 @@ def owner_dashboard(request):
         'customers':customers,
         'cancel':cancel,
         'feedback':Feedback.objects.order_by('-id'),
-        'top_selling':top_selling,
+        'top_selling':top_selling[:3],
         'baskets':Basket.objects.all(),
         'months':month_list,
         'orders_in_month':orders_in_month,
@@ -360,7 +360,7 @@ def owner_change_password(request):
 
 @login_required
 def dashboard(request,object_id):
-    top_ordered_food = OrderItems.objects.values('menu_id__item_name', 'menu_id__image').annotate(total_ordered=Sum('quantity')).order_by('-total_ordered')[:10]
+    top_ordered_food = OrderItems.objects.values('menu_id__item_name', 'menu_id__image').annotate(total_ordered=Sum('quantity')).order_by('-total_ordered')[:3]
     import os
     from django.conf import settings
 
