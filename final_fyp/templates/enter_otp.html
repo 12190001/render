@@ -4,7 +4,7 @@
   <head>
 
     <!-- Site Icons -->
-   
+
     <title>GoFoodie</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -61,6 +61,16 @@
   <script src="{% static 'js/popper.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
+  <script>
+	"{% for flashmsg in messages %}"
+		alertify.set('notifier','position', 'top-center');
+		"{% if flashmsg.tags == 'success' %}"
+			alertify.success('{{ flashmsg }}');
+		" {% else %}"
+			alertify.error('{{ flashmsg }}');
+		"{% endif %}"
+	"{% endfor %}"
+</script>
 
 	</body>
 </html>
